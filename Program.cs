@@ -8,9 +8,11 @@ Console.WriteLine("Hello, World!");
 IBag player_bag = new Bag();
 IBag enemy_bag = new Bag();
 
-player_bag.AddItemById(ItemId.BigLifePotion);
+player_bag.AddItemById(ItemId.SmallLifePotion);
+player_bag.AddItemById(ItemId.SmallLifePotion);
 player_bag.AddItemById(ItemId.Sword);
 
+enemy_bag.AddItemById(ItemId.SmallLifePotion);
 enemy_bag.AddItemById(ItemId.BossKey);
 enemy_bag.AddItemById(ItemId.Axe);
 
@@ -19,12 +21,12 @@ enemy_bag.EquipFirstWeaponFromItems();
 
 Entity player = new Entity(name: "Héro",
                            health: 50,
-                           initiative: 4,
+                           initiative: 10,
                            inventory: player_bag,
-                           player: true); // True : Utilise les méthodes de combat du joueur / False : Mode automatique, considéré comme une "IA"
+                           player: false); // True : Utilise les méthodes de combat du joueur / False : Mode automatique, considéré comme une "IA"
                            
 Entity enemy = new Entity(name: "Orc",
-                          health: 20,
+                          health: 50,
                           initiative: 10,
                           inventory: enemy_bag);
 
