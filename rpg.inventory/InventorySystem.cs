@@ -6,7 +6,7 @@ public class InventorySystem : IInventorySystem
 {
     public IGame Game { get; set; } = null!;
 
-    public Item? PickItem(IEntity source)
+    public IItem? PickItem(IEntity source)
     {
         throw new NotImplementedException();
     }

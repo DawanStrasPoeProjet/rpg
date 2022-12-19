@@ -4,5 +4,5 @@ public interface IInventorySystem
 {
     IGame Game { get; set; }
 
-    Item? PickItem(IEntity source);
+    IItem? PickItem(IEntity source);
 }
