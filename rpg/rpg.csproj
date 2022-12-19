@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>RPG</RootNamespace>
+    <AssemblyName>rpg</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\rpg.combat\rpg.combat.csproj" />
+    <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
+    <ProjectReference Include="..\rpg.data\rpg.data.csproj" />
+    <ProjectReference Include="..\rpg.inventory\rpg.inventory.csproj" />
+    <ProjectReference Include="..\rpg.stage\rpg.stage.csproj" />
+  </ItemGroup>
+
+</Project>
