@@ -16,6 +16,7 @@ internal static class Program
 
     public static void Main()
     {
-        var g = CreateGame();
+        var ui = new UI.Class1();
+        ui.Start();
     }
 }
