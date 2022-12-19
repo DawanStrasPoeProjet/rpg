@@ -7,16 +7,16 @@ public interface IEntity
     IEnumerable<string> Tags { get; }
     IBag Bag { get; }
     IItem EquippedItem { get; }
-    public string Name { get; }
-    public int Initiative { get; set; }
-    public int Health { get; set; }
-    public int MaxHealth { get; set; }
-    public int Magic { get; set; }
-    public int MaxMagic { get; set; }
-    public int Attack { get; set; }
-    public int Defense { get; set; }
-    public int Money { get; set; }
-    public bool IsPlayer { get; }
+    string Name { get; }
+    int Initiative { get; set; }
+    int Health { get; set; }
+    int MaxHealth { get; set; }
+    int Magic { get; set; }
+    int MaxMagic { get; set; }
+    int Attack { get; set; }
+    int Defense { get; set; }
+    int Money { get; set; }
+    bool IsPlayer { get; }
 
     bool HasTags(params string[] tags);
     bool HasTags(IEnumerable<string> tags);
