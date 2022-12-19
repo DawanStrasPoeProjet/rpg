@@ -13,6 +13,7 @@ public interface IEntity
     public int MaxHealth { get; set; }
     public int Magic { get; set; }
     public int MaxMagic { get; set; }
+    public int Attack { get; set; }
     public int Defense { get; set; }
     public int Money { get; set; }
     public bool IsPlayer { get; }

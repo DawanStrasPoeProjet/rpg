@@ -16,6 +16,7 @@ public class Entity : IEntity
     public int MaxHealth { get; set; }
     public int Magic { get; set; }
     public int MaxMagic { get; set; }
+    public int Attack { get; set; }
     public int Defense { get; set; }
     public int Money { get; set; }
     public bool IsPlayer { get; init; }
@@ -42,6 +43,7 @@ public class Entity : IEntity
            $", {nameof(MaxHealth)}={MaxHealth}" +
            $", {nameof(Magic)}={Magic}" +
            $", {nameof(MaxMagic)}={MaxMagic}" +
+           $", {nameof(Attack)}={Attack}" +
            $", {nameof(Defense)}={Defense}" +
            $", {nameof(Money)}={Money}" +
            $", {nameof(IsPlayer)}={IsPlayer})";
