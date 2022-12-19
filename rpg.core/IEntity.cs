@@ -14,6 +14,7 @@ public interface IEntity
     public int Magic { get; set; }
     public int MaxMagic { get; set; }
     public int Defense { get; set; }
+    public int Money { get; set; }
     public bool IsPlayer { get; }
 
     bool HasTags(params string[] tags);

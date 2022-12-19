@@ -17,6 +17,7 @@ public class Entity : IEntity
     public int Magic { get; set; }
     public int MaxMagic { get; set; }
     public int Defense { get; set; }
+    public int Money { get; set; }
     public bool IsPlayer { get; init; }
 
     public Entity(int key, string id, IEnumerable<string>? tags, IItemSource itemSource, string defaultEquippedItemId)
@@ -29,7 +30,9 @@ public class Entity : IEntity
     }
 
     public override string ToString()
-        => $"Entity({nameof(Key)}={Key}, {nameof(Id)}={Id}, {nameof(Tags)}={{{string.Join(", ", Tags)}}}" +
+        => $"Entity({nameof(Key)}={Key}" +
+           $", {nameof(Id)}={Id}" +
+           $", {nameof(Tags)}={{{string.Join(", ", Tags)}}}" +
            $", {nameof(Bag)}={Bag}" +
            $", DefaultEquippedItem={_defaultEquippedItem}" +
            $", EquippedItem={_equippedItem}" +
@@ -40,6 +43,7 @@ public class Entity : IEntity
            $", {nameof(Magic)}={Magic}" +
            $", {nameof(MaxMagic)}={MaxMagic}" +
            $", {nameof(Defense)}={Defense}" +
+           $", {nameof(Money)}={Money}" +
            $", {nameof(IsPlayer)}={IsPlayer})";
 
     protected void InsertFrontTag(string tag)
