@@ -8,9 +8,9 @@ public class WeaponItem : Item
     public int NumDiceRolls { get; set; }
     public int NumDiceFaces { get; set; }
 
-    public WeaponItem(int key, string id, IEnumerable<string>? tags = null, int price = 0, int baseDamage = 0,
-        int numDiceRolls = 0, int numDiceFaces = 0)
-        : base(key, id, tags, price)
+    public WeaponItem(int key, string id, string name, string description, IEnumerable<string>? tags = null,
+        int price = 0, int baseDamage = 0, int numDiceRolls = 0, int numDiceFaces = 0)
+        : base(key, id, name, description, tags, price)
     {
         InsertFrontTag("weapon");
         BaseDamage = baseDamage;
@@ -33,9 +33,9 @@ public class PotionItem : Item
     public int Health { get; set; }
     public int Magic { get; set; }
 
-    public PotionItem(int key, string id, IEnumerable<string>? tags = null, int price = 0, int health = 0,
-        int magic = 0)
-        : base(key, id, tags, price)
+    public PotionItem(int key, string id, string name, string description, IEnumerable<string>? tags = null,
+        int price = 0, int health = 0, int magic = 0)
+        : base(key, id, name, description, tags, price)
     {
         InsertFrontTag("potion");
         Health = health;
@@ -53,8 +53,9 @@ public class PotionItem : Item
 
 public class QuestItem : Item
 {
-    public QuestItem(int key, string id, IEnumerable<string>? tags = null, int price = 0)
-        : base(key, id, tags, price)
+    public QuestItem(int key, string id, string name, string description, IEnumerable<string>? tags = null,
+        int price = 0)
+        : base(key, id, name, description, tags, price)
     {
         InsertFrontTag("quest");
     }

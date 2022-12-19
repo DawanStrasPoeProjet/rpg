@@ -36,7 +36,7 @@ public class Entity : IEntity
            $", {nameof(Bag)}={Bag}" +
            $", DefaultEquippedItem={_defaultEquippedItem}" +
            $", EquippedItem={_equippedItem}" +
-           $", {nameof(Name)}={Name}" +
+           $", {nameof(Name)}='{Name}'" +
            $", {nameof(Initiative)}={Initiative}" +
            $", {nameof(Health)}={Health}" +
            $", {nameof(MaxHealth)}={MaxHealth}" +

@@ -6,13 +6,17 @@ public class Item : IItem
     public string Id { get; }
     private readonly List<string> _tags = new();
     public IEnumerable<string> Tags => _tags;
+    public string Name { get; }
+    public string Description { get; }
     public int Price { get; set; }
 
-    protected Item(int key, string id, IEnumerable<string>? tags = null, int price = 0)
+    protected Item(int key, string id, string name, string description, IEnumerable<string>? tags = null, int price = 0)
     {
         Key = key;
         Id = id;
         if (tags != null) _tags.AddRange(tags);
+        Name = name;
+        Description = description;
         Price = price;
     }
 
@@ -20,6 +24,8 @@ public class Item : IItem
         => $"Item({nameof(Key)}={Key}" +
            $", {nameof(Id)}={Id}" +
            $", {nameof(Tags)}={{{string.Join(", ", Tags)}}}" +
+           $", {nameof(Name)}='{Name}'" +
+           $", {nameof(Description)}='{Description}'" +
            $", {nameof(Price)}={Price})";
 
     protected void InsertFrontTag(string tag)
