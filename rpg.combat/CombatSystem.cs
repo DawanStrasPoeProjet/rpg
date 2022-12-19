@@ -1,6 +1,8 @@
 ﻿using RPG.Core;
 using RPG.Data;
 using System.Diagnostics;
+using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RPG.Combat;
 
@@ -14,23 +16,36 @@ public class CombatSystem : ICombatSystem
 
         // On commence par déterminer qui commence en utilisant la méthode TurnOrder
         List<IEntity> turnOrder = TurnOrder(source, entities);
+        
         int turn = 0;
         bool flee = false;
 
-        while (Figher1.Health > 0 && Fighter2.Health > 0 && flee is false)
+        while (!flee && // On ne peut pas s'enfuir si on est déjà en train de fuir
+            turnOrder.Any(e => e.Health > 0) && // Il reste des combattants vivants
+            turnOrder.Any(e => e.IsPlayer) // Il reste des joueurs vivants
+        )
         {
-            int maxTurn = turnOrder.Count;
-            Console.WriteLine("------------------------------------------------");
-            if (turnOrder[turn].isPlayer)
-                flee = PlayerTurn(turnOrder[turn]);
-            else
-                MonsterTurn(turnOrder[turn]);
+            IEntity entity = turnOrder[turn];
 
-            turn++;
-            if (turn >= maxTurn)
-                turn = 0;
+            // Si l'entité est morte, on passe au tour suivant
+            if (entity.Health <= 0)
+            {
+                turn = (turn + 1) % turnOrder.Count; //Reset à 0 si turn est égal à la taille de la liste
+                continue;
+            }
+
+            // Si l'entité est un joueur, on demande à l'utilisateur ce qu'il veut faire
+            if (entity.IsPlayer)
+            {
+                PlayerTurn(entity, entities);
+            }
+            // Sinon, on fait une action aléatoire
+            else
+            {
+                // récupère player en comparant entities avec source
+                MonsterTurn(entity, entities);
+            }
         }
-        return VictoryChecker(Figher1, Fighter2, flee);
     }
 
     private int VictoryChecker(IEntity player, IEntity monster, bool flee)
@@ -56,13 +71,13 @@ public class CombatSystem : ICombatSystem
     }
 
     // Interface de combat du joueur
-    private bool PlayerTurn(IEntity player)
+    private bool PlayerTurn(IEntity player, IEnumerable<IEntity> entities)
     {
         int choice;
         do
         {
 
-            Console.WriteLine($"{player.Name} : {player.Health}/{player.MaxHealth}\nArme : {player.Inventory.GetEquipedWeaponName()}");
+            Console.WriteLine($"{player.Name} : {player.Health}/{player.MaxHealth}\nArme : {player.EquippedItem.Name}");
 
             Console.WriteLine($@"Quelle sera votre action ?
                 1 - Attaquer
@@ -90,27 +105,90 @@ public class CombatSystem : ICombatSystem
                 return Flee(player, player == Figher1 ? Fighter2 : Figher1);
             default:
                 Console.WriteLine("Erreur : choix invalide");
-                PlayerTurn(player);
+                PlayerTurn(player, entities);
                 break;
         }
         return false;
     }
 
-    // Interface de "réfléxion" de l'IA
-    // Incomplète
-    private void MonsterTurn(IEntity monster)
+    //Retourne une cible séléctionnée par l'utilisateur
+    private IEntity ManualSelectTarget(IEntity source, IEnumerable<IEntity> entities)
     {
-        Console.WriteLine($"Tour de {monster.Name}.\n");
-        Debug.WriteLineIf(monster.Health < monster.MaxHealth * 20 / 100, $"{monster.Name} doit se soigner");
-        if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Inventory.Items.Count() > 0)
+        List<IEntity> AliveTargets = new(entities.Where(e => e.Health > 0));
+        IEntity target = source;
+
+        while (target == source)
         {
-            bool canHeal = AutoUseItem(monster, "IncreaseLifePotion");
-            if (canHeal is false)
-                Attack(monster, monster == Figher1 ? Fighter2 : Figher1);
+            Console.WriteLine("Choisissez une cible :");
+            for (int i = 0; i < entities.Count(); i++)
+            {
+                Console.WriteLine($"{i + 1} - {AliveTargets.ElementAt(i).Name}");
+            }
+            Console.Write("Votre choix : ");
+            int choice = int.TryParse(Console.ReadLine(), out int result) ? result : 0;
+            if (choice > 0 && choice <= entities.Count())
+            {
+                target = entities.ElementAt(choice - 1);
+            }
+            else
+            {
+                Console.WriteLine("Erreur : choix invalide");
+            }
+        }
+        return target;
+    }
+
+    private IEntity AutoSelectTarget(IEntity source, IEnumerable<IEntity> entities, bool smartSelect = false)
+    {
+        List<IEntity> AliveTargets = new(entities.Where(e => e.Health > 0));
+        Random rand = new();
+
+        if (smartSelect)
+        {
+            int minHP = AliveTargets.Min(e => e.Health);
+            int minDef = AliveTargets.Min(e => e.Defense);
+            List<IEntity> minHPList = AliveTargets.Where(e => e.Health == minHP).ToList();
+            List<IEntity> minDefList = AliveTargets.Where(e => e.Defense == minDef).ToList();
+
+            // Choisit entre le moins de point de vie et le moins de défense aléatoirement, fait attention à ce qu'il y ait une cible valide
+            if (minHPList.Count > 0 && minDefList.Count > 0)
+            {
+                return rand.Next(0, 2) == 0 ? minHPList.ElementAt(rand.Next(0, minHPList.Count)) : minDefList.ElementAt(rand.Next(0, minDefList.Count));
+            }
+            else if (minHPList.Count > 0)
+            {
+                return minHPList.ElementAt(rand.Next(0, minHPList.Count));
+            }
+            else if (minDefList.Count > 0)
+            {
+                return minDefList.ElementAt(rand.Next(0, minDefList.Count));
+            }
+            else
+            {
+                throw new Exception("Erreur : Aucune cible valide trouvée");
+            }
         }
         else
         {
-            Attack(monster, monster == Figher1 ? Fighter2 : Figher1);
+            return AliveTargets.ElementAt(rand.Next(0, AliveTargets.Count));
+        }
+    }
+
+    // Interface de "réfléxion" de l'IA
+    // Incomplète
+    private void MonsterTurn(IEntity monster, IEntity player)
+    {
+        Console.WriteLine($"Tour de {monster.Name}.\n");
+        Debug.WriteLineIf(monster.Health < monster.MaxHealth * 20 / 100, $"{monster.Name} doit se soigner");
+        if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Count() > 0)
+        {
+            bool canHeal = AutoUseItem(monster, "IncreaseLifePotion");
+            if (canHeal is false)
+                Attack(monster, player);
+        }
+        else
+        {
+            Attack(monster, player);
         }
     }
 
@@ -121,15 +199,16 @@ public class CombatSystem : ICombatSystem
         Random rand = new();
         int attackAttempt = rand.Next(0, 21) + attacker.Attack;
         Console.WriteLine($"{attacker.Name} attaque {target.Name} avec {attacker.EquippedItem.Name} :\n");
+        WeaponItem attackerWeapon = (WeaponItem)attacker.EquippedItem;
 
         if (attackAttempt > target.Defense)
         {
             int finalDamage = 0;
-            for (int i = 0; i < attacker.Inventory.Weapon.NumberOfDice; i++)
+            for (int i = 0; i < attackerWeapon.NumDiceRolls; i++)
             {
-                finalDamage += rand.Next(1, attacker.Inventory.Weapon.DiceSize + 1);
+                finalDamage += rand.Next(1, attackerWeapon.NumDiceFaces + 1);
             }
-            finalDamage += attacker.Inventory.Weapon.Damage;
+            finalDamage += attackerWeapon.BaseDamage;
             target.Health -= finalDamage;
             if (target.Health < 0)
                 target.Health = 0;
