@@ -6,6 +6,7 @@ public interface IGame
     IEntitySource EntitySource { get; }
     IInventorySystem InventorySystem { get; }
     ICombatSystem CombatSystem { get; }
+    IUISystem UISystem { get; }
 
     bool HasFlag(string name);
     bool GetFlag(string name);

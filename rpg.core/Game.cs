@@ -6,12 +6,13 @@ public class Game : IGame
     public IEntitySource EntitySource { get; }
     public IInventorySystem InventorySystem { get; }
     public ICombatSystem CombatSystem { get; }
+    public IUISystem UISystem { get; }
 
     private readonly Dictionary<string, bool> _flags = new();
     private readonly Dictionary<string, object> _data = new();
 
     public Game(IItemSource itemSource, IEntitySource entitySource, IInventorySystem inventorySystem,
-        ICombatSystem combatSystem)
+        ICombatSystem combatSystem, IUISystem uiSystem)
     {
         ItemSource = itemSource;
         EntitySource = entitySource;
@@ -19,6 +20,8 @@ public class Game : IGame
         InventorySystem.Game = this;
         CombatSystem = combatSystem;
         CombatSystem.Game = this;
+        UISystem = uiSystem;
+        UISystem.Game = this;
     }
 
     public bool HasFlag(string name)
