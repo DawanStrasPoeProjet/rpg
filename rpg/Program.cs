@@ -2,6 +2,7 @@
 using RPG.Core;
 using RPG.Data;
 using RPG.Inventory;
+using RPG.Stage;
 using RPG.UI;
 
 namespace RPG;
@@ -12,7 +13,8 @@ internal static class Program
     {
         var itemSource = new YamlItemSource("resources/items.yaml");
         var entitySource = new YamlEntitySource(itemSource, "resources/entities.yaml");
-        return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(), new UISystem());
+        return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(), new UISystem(),
+            new StageSystem());
     }
 
     public static void Main()

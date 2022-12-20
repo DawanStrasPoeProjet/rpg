@@ -7,6 +7,7 @@ public interface IGame
     IInventorySystem InventorySystem { get; }
     ICombatSystem CombatSystem { get; }
     IUISystem UISystem { get; }
+    IStageSystem StageSystem { get; }
 
     bool HasFlag(string name);
     bool GetFlag(string name);
