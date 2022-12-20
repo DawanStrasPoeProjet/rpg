@@ -20,9 +20,9 @@ public class CombatSystem : ICombatSystem
         int turn = 0;
         bool flee = false;
 
-        while (!flee && // On ne peut pas s'enfuir si on est déjà en train de fuir
+        while (!flee && // Termine le combat si le joueur fuit
             turnOrder.Any(e => e.Health > 0) && // Il reste des combattants vivants
-            turnOrder.Any(e => e.IsPlayer) // Il reste des joueurs vivants
+            turnOrder.Any(e => e.Equals(source)) // Il reste des joueurs vivants
         )
         {
             IEntity entity = turnOrder[turn];
@@ -43,9 +43,17 @@ public class CombatSystem : ICombatSystem
             else
             {
                 // récupère player en comparant entities avec source
-                MonsterTurn(entity, entities);
+                MonsterTurn(entity, entities, source);
             }
         }
+
+        // On détermine le résultat du combat
+        if (flee && turnOrder.Any(e => e.Equals(source) && e.Health > 0))
+            return CombatResult.Fled;
+        else if (turnOrder.Any(e => e.Equals(source) && e.Health > 0))
+            return CombatResult.Won;
+        else
+            return CombatResult.Lost;
     }
 
     private int VictoryChecker(IEntity player, IEntity monster, bool flee)
@@ -94,7 +102,7 @@ public class CombatSystem : ICombatSystem
         switch (choice)
         {
             case 1:
-                Attack(player, player == Figher1 ? Fighter2 : Figher1);
+                Attack(player, ManualSelectTarget(player, entities));
                 break;
             case 2:
                 ManualUseItem(player);
@@ -102,7 +110,7 @@ public class CombatSystem : ICombatSystem
             case 3:
                 break;
             case 4:
-                return Flee(player, player == Figher1 ? Fighter2 : Figher1);
+                return Flee(player, entities) ;
             default:
                 Console.WriteLine("Erreur : choix invalide");
                 PlayerTurn(player, entities);
@@ -138,6 +146,7 @@ public class CombatSystem : ICombatSystem
         return target;
     }
 
+    //Retourne une cible automatiquement avec ou sans recherche "intelligente"
     private IEntity AutoSelectTarget(IEntity source, IEnumerable<IEntity> entities, bool smartSelect = false)
     {
         List<IEntity> AliveTargets = new(entities.Where(e => e.Health > 0));
@@ -176,25 +185,28 @@ public class CombatSystem : ICombatSystem
 
     // Interface de "réfléxion" de l'IA
     // Incomplète
-    private void MonsterTurn(IEntity monster, IEntity player)
+    private void MonsterTurn(IEntity monster, IEnumerable<IEntity> entities, IEntity source)
     {
+        bool healed = false;
+
         Console.WriteLine($"Tour de {monster.Name}.\n");
         Debug.WriteLineIf(monster.Health < monster.MaxHealth * 20 / 100, $"{monster.Name} doit se soigner");
-        if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Count() > 0)
+        if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Any())
+            healed = AutoUseItem(monster, "IncreaseLifePotion");
+        
+        if (monster.Equals(source) && !healed)
         {
-            bool canHeal = AutoUseItem(monster, "IncreaseLifePotion");
-            if (canHeal is false)
-                Attack(monster, player);
+            Attack(monster, AutoSelectTarget(monster, entities));
         }
-        else
+        else if (!healed)
         {
-            Attack(monster, player);
+            Attack(monster, source);
         }
     }
 
     // Fonction principale de combat
     // Incomplète
-    private void Attack(IEntity attacker, IEntity target)
+    private static void Attack(IEntity attacker, IEntity target)
     {
         Random rand = new();
         int attackAttempt = rand.Next(0, 21) + attacker.Attack;
@@ -223,36 +235,35 @@ public class CombatSystem : ICombatSystem
     }
 
     //Fuit le combat
-    private bool Flee(IEntity coward, IEntity bully)
+    private bool Flee(IEntity coward, IEnumerable<IEntity> bullies)
     {
         Random rand = new();
 
-        int fleeAttempt = rand.Next(0, 21) + coward.Initiative - bully.Initiative;
-        Debug.WriteLine($"{fleeAttempt} ({fleeAttempt - coward.Initiative + bully.Initiative} + {coward.Initiative} - {bully.Initiative}) VS {bully.Defense}");
-        Debug.WriteLineIf(fleeAttempt > bully.Defense, "Le fuyard a réussi à fuir");
-        if (fleeAttempt > bully.Defense)
+        int fleeAttempt = rand.Next(1, 101) + (coward.Initiative - (bullies.Sum(e => e.Initiative) / bullies.Count()));
+        int fleeChance = bullies.Count() * 20;
+
+        if (fleeAttempt > fleeChance)
         {
-            Console.WriteLine($"{coward.Name} a réussi à fuir le combat !\n");
+            Console.WriteLine($"{coward.Name} a réussi à fuir le combat !");
             return true;
         }
         else
         {
-            Console.WriteLine($"{coward.Name} s'est fait rattrapé par {bully.Name} et l'attaque !\n");
-            Attack(bully, coward);
+            Console.WriteLine($"{coward.Name} n'a pas réussi à fuir le combat !");
             return false;
         }
     }
 
-    // Utilise un item dans l'inventaire
-    private void UseItem(IEntity fighter, Item item)
+    //Utilise un item dans l'inventaire
+    private void UseItem(IEntity fighter, IItem item)
     {
         if (item is PotionItem potion)
         {
-            fighter.Health += potion.HealthPoints;
+            fighter.Health += potion.Health;
             if (fighter.Health > fighter.MaxHealth)
                 fighter.Health = fighter.MaxHealth;
-            fighter.Inventory.RemoveFirstItemById(potion.Id);
-            Console.WriteLine($"{fighter.Name} utilise {ItemsHelper.GetNameForId(potion.Id)} et récupère {potion.HealthPoints} points de vie !");
+            fighter.Bag.RemoveFirstItemById(potion.Id);
+            Console.WriteLine($"{fighter.Name} utilise {potion.Name} et récupère {potion.Health} points de vie !");
             Console.WriteLine($"Santé de {fighter.Name} : {fighter.Health}/{fighter.MaxHealth}");
         }
         else
@@ -261,20 +272,20 @@ public class CombatSystem : ICombatSystem
         }
     }
 
-
+    //Utilise automatiquement un item dans l'inventaire
     private bool AutoUseItem(IEntity fighter, string typeOfItem)
     {
-        IEnumerable<Item> items = fighter.Inventory.Items;
-        if (items.Count() == 0)
+        IEnumerable<IItem> items = fighter.Bag.Items ;
+        if (!items.Any())
         {
             //Throw exception if inventory is empty
             //Exception thrown because it shouldn't be the case if AutoUseItem is used
             throw new Exception("Inventory empty");
         }
 
-        foreach (Item iterableItem in items)
+        foreach (IItem iterableItem in items)
         {
-            if (ItemsHelper.GetTagForId(iterableItem.Id) == "IncreaseLifePotion")
+            if (iterableItem.Tags.Contains("IncreaseLifePotion"))
             {
                 UseItem(fighter, iterableItem);
                 return true;
@@ -283,21 +294,21 @@ public class CombatSystem : ICombatSystem
         return false;
     }
 
-    private void ManualUseItem(IEntity fighter)
+    private bool ManualUseItem(IEntity fighter)
     {
         int choice = 0;
         IEnumerable<IItem> items = fighter.Bag.Items;
 
-        if (items.Count() == 0)
+        if (!items.Any())
         {
             Console.WriteLine("Vous n'avez aucun objet dans votre inventaire");
-            return;
+            return false;
         }
 
         int i = 1;
         foreach (IItem iterableItem in items)
         {
-            Console.WriteLine($"{i} - {ItemsHelper.GetNameForId(iterableItem.Id)}");
+            Console.WriteLine($"{i} - {iterableItem.Name}");
             i++;
         }
 
@@ -311,26 +322,31 @@ public class CombatSystem : ICombatSystem
         } while (!CheckInput(choice, max: i));
 
         if (choice == i)
-            PlayerTurn(fighter);
+        {
+            return false;
+        }
         else
+        {
             UseItem(fighter, items.ElementAt(choice - 1));
+            return true;
+        }
     }
 
     // Determine turn order depending of Initiative & Random
-    private List<IEntity> TurnOrder(IEntity source, IEnumerable<IEntity> entities)
+    private static List<IEntity> TurnOrder(IEntity source, IEnumerable<IEntity> entities)
     {
         List<IEntity> entitiesList = entities.ToList();
         entitiesList.Add(source);
 
         List<int> rolls = new();
-        for (int i = 0; i < entitiesList.Count() ; i++)
+        for (int i = 0; i < entitiesList.Count; i++)
         {
             Random rand = new();
             rolls.Add(rand.Next(0, 21) + entitiesList[i].Initiative);
         }
 
         List<IEntity> orderedEntities = new();
-        for (int i = 0; i < entitiesList.Count(); i++)
+        for (int i = 0; i < entitiesList.Count; i++)
         {
             int max = rolls.Max();
             int index = rolls.IndexOf(max);
@@ -347,7 +363,7 @@ public class CombatSystem : ICombatSystem
 
     // Vérifie que l'input est bien un chiffre entre 1 et 4
     // Sera supprimé si Spectre Console est implémenté
-    private bool CheckInput(int input, int min = 1, int max = 4)
+    private static bool CheckInput(int input, int min = 1, int max = 4)
     {
         return input >= min && input <= max;
     }
