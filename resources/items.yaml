@@ -1,0 +1,38 @@
+- !WeaponItem
+  id: fist
+  tags:
+    - fast
+  name: Poings
+  description: Des poings...
+  baseDamage: 5
+
+- !WeaponItem
+  id: sword
+  tags:
+    - fast
+  name: Épée
+  description: Une épée...
+  baseDamage: 20
+
+- !WeaponItem
+  id: axe
+  tags:
+    - slow
+  name: Hache
+  description: Une hache...
+  baseDamage: 40
+
+- !PotionItem
+  id: small_life_potion
+  tags:
+    - healing
+  name: Petite potion de vie
+  description: Une petite potion de vie...
+  health: 20
+  
+- !QuestItem
+  id: small_key
+  tags:
+    - key
+  name: Petite clé
+  description: Une petite clé...

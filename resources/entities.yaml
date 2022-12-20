@@ -1,0 +1,20 @@
+- id: player
+  tags:
+    - player
+  bagItemIds:
+    - small_life_potion
+    - small_key
+  defaultEquippedItemId: fist
+  equippedItemId: axe
+  initiative: 200
+  health: 100
+  maxHealth: 100
+  attack: 1
+  defense: 1
+  money: 500
+  isPlayer: true
+
+- id: swordsman
+  defaultEquippedItemId: sword
+  health: 80
+  maxHealth: 80
