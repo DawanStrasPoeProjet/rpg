@@ -9,8 +9,8 @@ internal static class Program
 {
     private static IGame CreateGame()
     {
-        var itemSource = new YamlItemSource("items.yaml");
-        var entitySource = new YamlEntitySource(itemSource, "entities.yaml");
+        var itemSource = new YamlItemSource("resources/items.yaml");
+        var entitySource = new YamlEntitySource(itemSource, "resources/entities.yaml");
         return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem());
     }
 
