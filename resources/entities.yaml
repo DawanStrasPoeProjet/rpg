@@ -1,4 +1,5 @@
 - id: player
+  name: Hero
   tags:
     - player
   bagItemIds:
@@ -7,14 +8,31 @@
   defaultEquippedItemId: fist
   equippedItemId: axe
   initiative: 200
-  health: 100
-  maxHealth: 100
+  health: 1000
+  maxHealth: 1000
   attack: 1
   defense: 1
   money: 500
-  isPlayer: true
+  isPlayer: false
 
-- id: swordsman
+- id: swordsman1
+  name: Target1
   defaultEquippedItemId: sword
   health: 80
   maxHealth: 80
+  initiative: 200
+ 
+
+- id: swordsman2
+  name: Target2
+  defaultEquippedItemId: sword
+  health: 80
+  maxHealth: 80
+  initiative: 200
+
+- id: swordsman3
+  name: Target3
+  defaultEquippedItemId: sword
+  health: 80
+  maxHealth: 80
+  initiative: 200
