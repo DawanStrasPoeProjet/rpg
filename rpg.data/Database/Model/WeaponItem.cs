@@ -6,20 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RpgAppDatabase.Model
+namespace RPG.Data.Database.Model;
+
+public class WeaponItem
 {
-    public class WeaponItem
-    {
-        [Key]
-        public int WeaponId { get; set; }
-        public string Id { get; set; }
-        public string Tag { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Price { get; set; }
-        public int BaseDamage { get; set; }
-        public int NumDiceRolls { get; set;}
-        public int NumDiceFaces { get; set;}
-                      
-    }
+    [Key] public int WeaponId { get; set; }
+    public string Id { get; set; }
+    public string Tag { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Price { get; set; }
+    public int BaseDamage { get; set; }
+    public int NumDiceRolls { get; set; }
+    public int NumDiceFaces { get; set; }
 }

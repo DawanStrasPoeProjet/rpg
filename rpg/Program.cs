@@ -11,8 +11,8 @@ internal static class Program
 {
     private static IGame CreateGame()
     {
-        var itemSource = new YamlItemSource("resources/items.yaml");
-        var entitySource = new YamlEntitySource(itemSource, "resources/entities.yaml");
+        var itemSource = new DbItemSource();
+        var entitySource = new DbEntitySource();
         return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(), new UISystem(),
             new StageSystem());
     }
@@ -20,5 +20,8 @@ internal static class Program
     public static void Main()
     {
         var g = CreateGame();
+
+        var entity = g.EntitySource.Create("player");
+        var potion = g.ItemSource.Create("small_life_potion");
     }
 }

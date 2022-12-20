@@ -1,50 +1,43 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RpgAppDatabase.Context;
-using RpgAppDatabase.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RPG.Data.Database.Context;
 
-namespace RpgAppDatabase.Dao
+namespace RPG.Data.Database.Dao;
+
+internal class QuestItemDAO : IItemDAO<Model.QuestItem>
 {
-    internal class QuestItemDAO : IItemDAO<QuestItem>
+    private RpgContext context;
+
+    public QuestItemDAO(RpgContext context)
     {
-        private RpgContext context;
+        this.context = context;
+    }
 
-        public QuestItemDAO(RpgContext context)
+    public async Task SaveOrUpdateItemAsync(Model.QuestItem item)
+    {
+        if (item.QuestId == 0)
         {
-            this.context = context;
+            context.QuestItems.Add(item);
         }
+        else
+        {
+            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+        await context.SaveChangesAsync();
+    }
 
-        public async Task SaveOrUpdateItemAsync(QuestItem item)
-        {
-            if (item.QuestId == 0)
-            {
-                context.QuestItems.Add(item);
-            }
-            else
-            {
-                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
-            await context.SaveChangesAsync();
-        }
+    public async Task DeleteItemAsync(Model.QuestItem item)
+    {
+        context.QuestItems.Remove(item);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task DeleteItemAsync(QuestItem item)
-        {
-            context.QuestItems.Remove(item);
-            await context.SaveChangesAsync();
-        }
+    public async Task<Model.QuestItem> FindItemByIdAsync(int id)
+    {
+        return await context.QuestItems.FindAsync(id);
+    }
 
-        public async Task<QuestItem> FindItemByIdAsync(int id)
-        {
-            return await context.QuestItems.FindAsync(id);
-        }
-
-        public async Task<List<QuestItem>> GetItemsAsync()
-        {
-            return await context.QuestItems.AsNoTracking().ToListAsync();
-        }
+    public async Task<List<Model.QuestItem>> GetItemsAsync()
+    {
+        return await context.QuestItems.AsNoTracking().ToListAsync();
     }
 }

@@ -1,18 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RpgAppDatabase.Model;
 
-namespace RpgAppDatabase.Context
+namespace RPG.Data.Database.Context;
+
+public class RpgContext : DbContext
 {
-    public class RpgContext : DbContext
-    {
-        
-        public DbSet<QuestItem> QuestItems { get; set; }
-        public DbSet<WeaponItem> WeaponItems { get; set; }
-        public DbSet<PotionItem> PotionItems { get; set; }
-        public DbSet<Entity> Entities { get; set; }
+    public DbSet<Model.QuestItem> QuestItems { get; set; }
+    public DbSet<Model.WeaponItem> WeaponItems { get; set; }
+    public DbSet<Model.PotionItem> PotionItems { get; set; }
+    public DbSet<Model.Entity> Entities { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-                    => optionsBuilder.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RpgDatabase");
-    
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RpgDatabase");
 }

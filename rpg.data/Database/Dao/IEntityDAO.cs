@@ -1,17 +1,9 @@
-﻿using RpgAppDatabase.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace RPG.Data.Database.Dao;
 
-namespace RpgAppDatabase.Dao
+internal interface IEntityDAO
 {
-    internal interface IEntityDAO
-    {
-        Task<List<Entity>> GetEntities();
-        Task<Entity> FindEntityById(int id);
-        Task SaveOrUpdateEntity(Entity entity);
-        Task DeleteEntity(Entity entity);
-    }
+    Task<List<Model.Entity>> GetEntities();
+    Task<Model.Entity> FindEntityById(int id);
+    Task SaveOrUpdateEntity(Model.Entity entity);
+    Task DeleteEntity(Model.Entity entity);
 }

@@ -1,52 +1,44 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RpgAppDatabase.Context;
-using RpgAppDatabase.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RPG.Data.Database.Context;
 
-namespace RpgAppDatabase.Dao
+namespace RPG.Data.Database.Dao;
+
+internal class EntityDAO : IEntityDAO
 {
-    internal class EntityDAO : IEntityDAO
+    private RpgContext context;
+
+    public EntityDAO(RpgContext context)
     {
-        private RpgContext context;
-                
-        public EntityDAO(RpgContext context)
+        this.context = context;
+    }
+
+    public async Task SaveOrUpdateEntity(Model.Entity entity)
+    {
+        if (entity.EntityId == 0)
         {
-            this.context = context;
+            context.Entities.Add(entity);
         }
-
-        public async Task SaveOrUpdateEntity(Entity entity)
+        else
         {
-            if (entity.EntityId == 0)  
-            {
-                context.Entities.Add(entity);  
-            }
-            else   
-            {
-                context.Entry(entity).State = EntityState.Modified;
-            }
-
-            await context.SaveChangesAsync(); 
+            context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task DeleteEntity(Entity entity)
-        {
-            context.Entry(entity).State = EntityState.Deleted;
-            await context.SaveChangesAsync();
-        }
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<Entity> FindEntityById(int id)
-        {            
-            return await context.Entities.FindAsync(id);
-        }
+    public async Task DeleteEntity(Model.Entity entity)
+    {
+        context.Entry(entity).State = EntityState.Deleted;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<List<Entity>> GetEntities()
-        {
-            return await context.Entities.AsNoTracking().ToListAsync(); ;
-        }
-        
+    public async Task<Model.Entity> FindEntityById(int id)
+    {
+        return await context.Entities.FindAsync(id);
+    }
+
+    public async Task<List<Model.Entity>> GetEntities()
+    {
+        return await context.Entities.AsNoTracking().ToListAsync();
     }
 }
