@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RPG.Data.Database.Context;
+using RPG.Data.Database.Model;
 
 namespace RPG.Data.Database.Dao;
 
@@ -7,38 +8,37 @@ internal class EntityDAO : IEntityDAO
 {
     private RpgContext context;
 
-    public EntityDAO(RpgContext context)
+    public EntityDAO()
     {
-        this.context = context;
+        context = new RpgContext();
+    }
+        
+    public List<Entity> GetEntities()
+    {
+        return context.Entities.AsNoTracking().ToList();
     }
 
-    public async Task SaveOrUpdateEntity(Model.Entity entity)
+    public Entity? FindEntityById(string id)
     {
-        if (entity.EntityId == 0)
+        return context.Entities.Find(id);
+    }
+
+    void IEntityDAO.SaveOrUpdateEntity(Entity entity)
+    {
+        if (entity.EntityId == 0 )
         {
             context.Entities.Add(entity);
         }
         else
         {
-            context.Entry(entity).State = EntityState.Modified;
+            context.Entities.Update(entity);
         }
-
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
-    public async Task DeleteEntity(Model.Entity entity)
+    void IEntityDAO.DeleteEntity(Entity entity)
     {
-        context.Entry(entity).State = EntityState.Deleted;
-        await context.SaveChangesAsync();
-    }
-
-    public async Task<Model.Entity> FindEntityById(int id)
-    {
-        return await context.Entities.FindAsync(id);
-    }
-
-    public async Task<List<Model.Entity>> GetEntities()
-    {
-        return await context.Entities.AsNoTracking().ToListAsync();
+        context.Entities.Remove(entity);
+        context.SaveChanges();
     }
 }

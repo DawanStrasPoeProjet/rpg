@@ -7,12 +7,26 @@ internal class QuestItemDAO : IItemDAO<Model.QuestItem>
 {
     private RpgContext context;
 
-    public QuestItemDAO(RpgContext context)
+    //public QuestItemDAO(RpgContext context)
+    //{
+    //    this.context = context;
+    //}
+    public QuestItemDAO()
     {
-        this.context = context;
+        context= new RpgContext();
+    }
+    
+    public List<Model.QuestItem> GetItems()
+    {
+        return context.QuestItems.AsNoTracking().ToList();
     }
 
-    public async Task SaveOrUpdateItemAsync(Model.QuestItem item)
+    public Model.QuestItem? FindItemById(string id)
+    {
+        return context.QuestItems.Where(quest => quest.Id == id).SingleOrDefault();
+    }
+
+    public void SaveOrUpdateItem(Model.QuestItem item)
     {
         if (item.QuestId == 0)
         {
@@ -20,24 +34,15 @@ internal class QuestItemDAO : IItemDAO<Model.QuestItem>
         }
         else
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(item).State = EntityState.Modified;
         }
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
-    public async Task DeleteItemAsync(Model.QuestItem item)
+    public void DeleteItem(Model.QuestItem item)
     {
         context.QuestItems.Remove(item);
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
-
-    public async Task<Model.QuestItem> FindItemByIdAsync(int id)
-    {
-        return await context.QuestItems.FindAsync(id);
-    }
-
-    public async Task<List<Model.QuestItem>> GetItemsAsync()
-    {
-        return await context.QuestItems.AsNoTracking().ToListAsync();
-    }
+        
 }

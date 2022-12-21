@@ -11,7 +11,7 @@ public class PotionItem
 {
     [Key] public int PotionId { get; set; }
     public string Id { get; set; }
-    public string Tag { get; set; }
+    public string Tags { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public int Health { get; set; }

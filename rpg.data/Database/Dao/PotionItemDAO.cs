@@ -7,12 +7,28 @@ internal class PotionItemDAO : IItemDAO<Model.PotionItem>
 {
     private RpgContext context;
 
-    public PotionItemDAO(RpgContext context)
+    public PotionItemDAO()
     {
-        this.context = context;
+        context= new RpgContext();
+    }
+        
+
+    public List<Model.PotionItem> GetItems()
+    {
+       return context.PotionItems.AsNoTracking().ToList();
     }
 
-    public async Task SaveOrUpdateItemAsync(Model.PotionItem item)
+    public Model.PotionItem? FindItemById(string id)
+    {
+        return context.PotionItems.Find(id);
+    }
+
+    public void SaveOrUpdateItem(Model.PotionItem item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteItem(Model.PotionItem item)
     {
         if (item.PotionId == 0)
         {
@@ -20,24 +36,9 @@ internal class PotionItemDAO : IItemDAO<Model.PotionItem>
         }
         else
         {
-            context.PotionItems.Add(item);
+            context.Entry(item).State= EntityState.Modified;
         }
-        await context.SaveChangesAsync();
-    }
-
-    public async Task DeleteItemAsync(Model.PotionItem item)
-    {
-        context.PotionItems.Remove(item);
-        await context.SaveChangesAsync();
-    }
-
-    public async Task<Model.PotionItem> FindItemByIdAsync(int id)
-    {
-        return context.PotionItems.Find(id);
-    }
-
-    public async Task<List<Model.PotionItem>> GetItemsAsync()
-    {
-        return await context.PotionItems.AsNoTracking().ToListAsync();
+        
+        context.SaveChanges();
     }
 }

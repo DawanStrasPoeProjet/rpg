@@ -2,8 +2,8 @@
 
 internal interface IItemDAO<Item>
 {
-    Task<List<Item>> GetItemsAsync();
-    Task<Item> FindItemByIdAsync(int id);
-    Task SaveOrUpdateItemAsync(Item item);
-    Task DeleteItemAsync(Item item);
+    List<Item> GetItems();
+    Item? FindItemById(string id);
+    void SaveOrUpdateItem(Item item);
+    void DeleteItem(Item item);
 }

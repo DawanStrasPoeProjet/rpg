@@ -12,7 +12,7 @@ internal static class Program
     private static IGame CreateGame()
     {
         var itemSource = new DbItemSource();
-        var entitySource = new DbEntitySource();
+        var entitySource = new DbEntitySource(itemSource);
         return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(), new UISystem(),
             new StageSystem());
     }

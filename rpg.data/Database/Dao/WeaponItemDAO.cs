@@ -7,12 +7,22 @@ internal class WeaponItemDAO : IItemDAO<Model.WeaponItem>
 {
     private RpgContext context;
 
-    public WeaponItemDAO(RpgContext context)
+    public WeaponItemDAO()
     {
-        this.context = context;
+        context = new RpgContext();
+    }   
+
+    public List<Model.WeaponItem> GetItems()
+    {
+        return context.WeaponItems.AsNoTracking().ToList();
     }
 
-    public async Task SaveOrUpdateItemAsync(Model.WeaponItem item)
+    public Model.WeaponItem? FindItemById(string id)
+    {
+        return context.WeaponItems.Find(id);
+    }
+
+    public void SaveOrUpdateItem(Model.WeaponItem item)
     {
         if (item.WeaponId == 0)
         {
@@ -23,22 +33,12 @@ internal class WeaponItemDAO : IItemDAO<Model.WeaponItem>
             context.Entry(item).State = EntityState.Modified;
         }
 
-        await context.SaveChangesAsync();
+        context.SaveChangesAsync();
     }
 
-    public async Task DeleteItemAsync(Model.WeaponItem item)
+    public void DeleteItem(Model.WeaponItem item)
     {
         context.WeaponItems.Remove(item);
-        await context.SaveChangesAsync();
-    }
-
-    public async Task<Model.WeaponItem> FindItemByIdAsync(int id)
-    {
-        return await context.WeaponItems.FindAsync(id);
-    }
-
-    public async Task<List<Model.WeaponItem>> GetItemsAsync()
-    {
-        return await context.WeaponItems.AsNoTracking().ToListAsync();
+        context.SaveChanges();
     }
 }

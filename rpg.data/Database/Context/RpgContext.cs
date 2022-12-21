@@ -10,5 +10,5 @@ public class RpgContext : DbContext
     public DbSet<Model.Entity> Entities { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RpgDatabase");
+        => optionsBuilder.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RPG_db");
 }

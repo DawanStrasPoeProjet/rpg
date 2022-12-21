@@ -2,8 +2,8 @@
 
 internal interface IEntityDAO
 {
-    Task<List<Model.Entity>> GetEntities();
-    Task<Model.Entity> FindEntityById(int id);
-    Task SaveOrUpdateEntity(Model.Entity entity);
-    Task DeleteEntity(Model.Entity entity);
+    List<Model.Entity> GetEntities();
+    Model.Entity? FindEntityById(string id);
+    void SaveOrUpdateEntity(Model.Entity entity);
+    void DeleteEntity(Model.Entity entity);
 }
