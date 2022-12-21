@@ -4,6 +4,8 @@
     - player
   bagItemIds:
     - small_life_potion
+    - large_life_potion
+    - small_life_potion
     - small_key
   defaultEquippedItemId: fist
   equippedItemId: axe
@@ -17,6 +19,10 @@
 
 - id: swordsman1
   name: Target1
+  bagItemIds:
+    - life_potion
+    - small_key
+    - life_potion
   defaultEquippedItemId: sword
   health: 80
   maxHealth: 80

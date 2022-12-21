@@ -20,16 +20,36 @@
     - slow
   name: Hache
   description: Une hache...
-  baseDamage: 40
+  baseDamage: 15
 
 - !PotionItem
   id: small_life_potion
   tags:
     - healing
-  name: Petite potion de vie
-  description: Une petite potion de vie...
+    - consumable
+  name: Potion de vie mineure
+  description: Une petite potion de vie mineure. Restaure 10hp;
+  health: 10
+
+- !PotionItem
+  id: life_potion
+  tags:
+  - healing
+  - consumable
+  name: Potion de vie
+  description: Une potion de vie. Restaure 20 hp.
   health: 20
+
+- !PotionItem
+  id: large_life_potion
+  tags:
+    - healing
+    - consumable
+  name: Potion de vie majeure
+  description: Une potion de vie majeure. Restaure 40 hp.
+  health: 40
   
+
 - !QuestItem
   id: small_key
   tags:

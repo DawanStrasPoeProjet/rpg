@@ -17,14 +17,14 @@ internal static class Program
 
     public static void Main()
     {
-        //var g = CreateGame();
+        var g = CreateGame();
 
-        //var player = g.EntitySource.Create("player");
-        //var enemy1 = g.EntitySource.Create("swordsman1");
-        //var enemy2 = g.EntitySource.Create("swordsman2");
-        //var enemy3 = g.EntitySource.Create("swordsman3");
+        var player = g.EntitySource.Create("player");
+        var enemy1 = g.EntitySource.Create("swordsman1");
+        var enemy2 = g.EntitySource.Create("swordsman2");
+        var enemy3 = g.EntitySource.Create("swordsman3");
 
-        //var result = g.CombatSystem.BeginCombat(player, new List<IEntity> { enemy1, enemy2, enemy3}) ;
+        var result = g.CombatSystem.BeginCombat(player, new List<IEntity> { enemy1, enemy2, enemy3 });
 
         //Console.WriteLine(result switch
         //{
@@ -35,7 +35,5 @@ internal static class Program
         //});
 
         //Lancer Start de Class1
-        var c = new UISystem();
-        c.Start();
     }
 }

@@ -13,9 +13,10 @@ public class UISystem
     public void Start()
     {
         //Set utf8
-        
+        Console.OutputEncoding = Encoding.UTF8;
 
         MainUI();
+        
 
     }
 
