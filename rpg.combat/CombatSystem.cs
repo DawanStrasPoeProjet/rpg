@@ -36,8 +36,7 @@ public class CombatSystem : ICombatSystem
         bool flee = false;
         
         // Termine le combat si le joueur fuit // Il reste des combattants vivants // Il reste des joueurs vivants
-        while (!flee && AliveEntities.Count > 1 && AliveEntities.Any(e => e.Equals(source))) 
-        
+        while (!flee && AliveEntities.Count > 1 && AliveEntities.Any(e => e.Equals(source)))
         {
             IEntity entity = TurnOrder[turn];
 
@@ -50,7 +49,7 @@ public class CombatSystem : ICombatSystem
             
             if (entity.IsPlayer)
             {
-                PlayerTurn(entity);
+                flee = PlayerTurn(entity);
             }
             else
             {
@@ -208,7 +207,6 @@ public class CombatSystem : ICombatSystem
 
 
     // Fonction principale de combat
-    // Incomplète
     private void Attack(IEntity attacker, IEntity target)
     {
         Random rand = new();
@@ -357,7 +355,7 @@ public class CombatSystem : ICombatSystem
         for (int i = 0; i < entitiesList.Count; i++)
         {
             Random rand = new();
-            rolls.Add(rand.Next(0, 21) + entitiesList[i].Initiative);
+            rolls.Add(rand.Next(1, 21) + entitiesList[i].Initiative);
         }
 
         List<IEntity> orderedEntities = new();
@@ -369,13 +367,6 @@ public class CombatSystem : ICombatSystem
             entitiesList.RemoveAt(maxRollIndex);
             rolls.RemoveAt(maxRollIndex);
         }
-        //{
-        //    int max = rolls.Max();
-        //    int index = rolls.IndexOf(max);
-        //    orderedEntities.Add(entitiesList[index]);
-        //    rolls.RemoveAt(index);
-        //    entitiesList.RemoveAt(index);
-        //}
 
         Debug.WriteLine("Liste des entités dans l'ordre de tour :");
         foreach (IEntity e in orderedEntities)
