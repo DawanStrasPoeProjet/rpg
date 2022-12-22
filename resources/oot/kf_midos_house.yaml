@@ -1,0 +1,78 @@
+﻿name: Cabane de Mido
+actors:
+  - dummy
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Ouvrir un coffre (1)"
+          if: !IsFlagUnset
+            flag: kf_midos_OpenChest1
+          do: !NextScene
+            scene: open_chest_1
+        - text: "Ouvrir un coffre (2)"
+          if: !IsFlagUnset
+            flag: kf_midos_OpenChest2
+          do: !NextScene
+            scene: open_chest_2
+        - text: "Ouvrir un coffre (3)"
+          if: !IsFlagUnset
+            flag: kf_midos_OpenChest3
+          do: !NextScene
+            scene: open_chest_3
+        - text: "Ouvrir un coffre (4)"
+          if: !IsFlagUnset
+            flag: kf_midos_OpenChest4
+          do: !NextScene
+            scene: open_chest_4
+
+  - id: open_chest_1
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez [blue]Rubis Bleu[/] !\nVous gagnez [blue]cinq Rubis[/] !"
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_midos_OpenChest1
+          then: !NextScene
+            scene: start
+
+  - id: open_chest_2
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez [blue]Rubis Bleu[/] !\nVous gagnez [blue]cinq Rubis[/] !"
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_midos_OpenChest2
+          then: !NextScene
+            scene: start
+
+  - id: open_chest_3
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez [green]Rubis vert[/] !\nVous gagnez [green]un Rubis[/] !"
+      then: !GiveMoney
+        money: 1
+        then: !SetFlag
+          flag: kf_midos_OpenChest3
+          then: !NextScene
+            scene: start
+
+  - id: open_chest_4
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous trouvez [hotpink2]Coeur de Vie[/] !\nVotre énergie est restaurée !"
+      then: !GiveHealth
+        health: 16
+        then: !SetFlag
+          flag: kf_midos_OpenChest4
+          then: !NextScene
+            scene: start

@@ -1,0 +1,30 @@
+﻿name: Cabane de [orange1]Saria[/]
+actors:
+  - dummy
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+              stage: kokiri_forest
+        - text: "Récupérer de l'énergie"
+          if: !IsFlagUnset
+            flag: kf_sarias_GotHearts
+          do: !NextScene
+            scene: gather_health
+
+  - id: gather_health
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous récupérez 64 points de vie."
+      then: !GiveHealth
+        health: 64
+        then: !SetFlag
+          flag: kf_sarias_GotHearts
+          then: !NextScene
+            scene: start
+
+clearFlags:
+  - kf_sarias_GotHearts

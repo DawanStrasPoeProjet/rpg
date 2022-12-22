@@ -1,0 +1,48 @@
+﻿name: Introduction
+actors:
+  - great_deku_tree
+  - navi
+scenes:
+  - id: start
+    do: !Monologue
+        from: great_deku_tree
+        texts:
+          - "Dans l'immense forêt d'Hyrule..."
+          - "Les siècles m'ont choisi comme\nle gardien spirituel des bois...\nJe suis... l'Arbre Mojo..."
+          - "Les Kokiris sont mes enfants.\nIls sont le peuple de la forêt."
+          - "Dès la naissance, chaque Kokiri\nreçoit sa fée."
+          - "Mais seul un jeune garçon\nn'avait pas de fée..."
+        then: !NextScene
+          scene: deku_tree_calls_navi
+
+  - id: deku_tree_calls_navi
+    do: !Monologue
+        from: great_deku_tree
+        texts:
+          - "Navi...\nNavi, où es-tu ?\nViens à moi..."
+          - "[blue]Navi la fée...[/]\nEcoute mes paroles, les paroles du\ntrès vénérable [red]Arbre Mojo[/]..."
+          - "Sens-tu le danger qui rôde ?\nCette aura ténébreuse qui s'abat\nsur le royaume..."
+          - "Des forces maléfiques s'activent\ndans l'ombre et préparent l'invasion\nd'Hyrule..."
+          - "Depuis toujours la [red]Forêt Kokiri[/]\ns'élève comme un rempart contre\nles forces chaotiques, assurant le\nmaintien de l'ordre et de la loi..."
+          - "Mais face à ce pouvoir terrifiant\net infernal, mes forces ne sont\nque misère..."
+          - "Le temps est venu pour ce [red]garçon[/]\n[red]sans fée[/] de commencer son\npériple..."
+          - "Cet enfant dont la destinée est\nde conduire Hyrule sur la voie de\nla justice et de la vérité..."
+          - "Va... [blue]Navi[/]! Trouve notre jeune ami\net présente-le devant moi..."
+          - "Il ne me reste que peu de temps."
+          - "Vole, Navi, vole ! Le destin de la\nforêt, que dis-je, du monde dépend\nde toi !!!"
+        then: !NextScene
+          scene: navi_wakesup_link
+
+  - id: navi_wakesup_link
+    do: !Monologue
+        from: navi
+        texts:
+          - "[blue]Hé, $HeroName !\nDebout ! Maintenant ![/]"
+          - "[blue]Le très[/] [red]vénérable Arbre Mojo[/]\n[blue]veut te parler !\nRéveille-toi, $HeroName ![/]"
+          - "[blue]Ho ! Tu vas te lever, oui ?[/]"
+          - "[blue]La destinée d'Hyrule respose-t-elle\nsur un garçon aussi paresseux ?[/]"
+          - "[blue]Haa... Enfin debout !\nMoi c'est [/][red]Navi[/] [blue]la fée ![/]"
+          - "[blue]Le très vénérable Arbre Mojo m'a\ndésignée pour être ta [/][red]partenaire[/] [blue]!\nJ'en suis très honorée ![/]"
+          - "[blue]Le très [/][red]vénérable Arbre Mojo[/]\n[blue]veut te parler !\nAllons-y tout de suite ![/]"
+        then: !NextStage
+          stage: kf_links_house

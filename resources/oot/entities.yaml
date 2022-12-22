@@ -1,0 +1,62 @@
+﻿- id: hero
+  defaultEquippedItemId: none
+  health: 16
+  maxHealth: 48
+  attack: 1
+  defense: 1
+  isPlayer: true
+
+- id: dummy
+  defaultEquippedItemId: none
+
+- id: sign
+  name: "Panneau"
+  defaultEquippedItemId: none
+
+- id: kf_links_house_records_table
+  defaultEquippedItemId: none
+  name: "Records"
+
+- id: great_deku_tree
+  name: "Vénérable Arbre Mojo"
+  defaultEquippedItemId: none
+
+- id: navi
+  name: "Navi"
+  defaultEquippedItemId: none
+
+- id: saria
+  name: "Saria"
+  defaultEquippedItemId: none
+
+- id: twin_sister
+  name: "Jumelle"
+  defaultEquippedItemId: none
+
+- id: mido
+  name: "Mido"
+  defaultEquippedItemId: none
+
+- id: shop_keeper
+  name: "Vendeur"
+  defaultEquippedItemId: none
+
+- id: kokiri
+  name: "Kokiri"
+  defaultEquippedItemId: none
+
+- id: fado
+  name: "Fado"
+  defaultEquippedItemId: none
+
+- id: gossip_stone
+  name: "Pierre à potins"
+  defaultEquippedItemId: none
+
+- id: knowitall_bro
+  name: "Frère Je-Sais-Tout"
+  defaultEquippedItemId: none
+
+- id: deku_baba
+  name: "Mojo Baba"
+  defaultEquippedItemId: deku_baba_weapon

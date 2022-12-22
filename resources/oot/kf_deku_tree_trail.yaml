@@ -1,0 +1,25 @@
+﻿name: Forêt Kokiri
+actors:
+  - navi
+  - deku_baba
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Examiner une Mojo Baba"
+          do: !Monologue
+            from: navi
+            texts:
+              - "Mojo Baba\n[blue]Son seul contact te fera souffrir ![/]"
+            then: !NextScene
+              scene: start
+        - text: "Combattre une Mojo Baba seule"
+          do:
+        - text: "Combattre un groupe de Mojo Baba"
+          do:
+        - text: "[underline]Aller vers le vénérable Arbre Mojo[/]"
+          do: !NextStage
+            stage: deku_tree
