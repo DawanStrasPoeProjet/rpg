@@ -17,7 +17,14 @@
 - !WeaponItem
   id: kokiris_sword
   name: "Épée Kokiri"
+  baseDamage: 1
 
 - !WeaponItem
-  id: deku_baba_weapon
-  name: "Mojo Baba"
+  id: deku_baba_stem
+  name: "Corps de Mojo Baba"
+  baseDamage: 2
+
+- !WeaponItem
+  id: deku_baba_head
+  name: "Tête de Mojo Baba"
+  baseDamage: 4

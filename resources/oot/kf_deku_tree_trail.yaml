@@ -1,7 +1,7 @@
 ﻿name: Forêt Kokiri
 actors:
+  - dummy
   - navi
-  - deku_baba
 scenes:
   - id: start
     do: !Choices
@@ -17,9 +17,55 @@ scenes:
             then: !NextScene
               scene: start
         - text: "Combattre une Mojo Baba seule"
-          do:
+          do: !Combat
+            entities:
+              - deku_baba_stem
+            won: !CheckRandom
+              chance: 0.50
+              yes: !Monologue
+                from: dummy
+                texts:
+                  - "Vous obtenez un [red]Bâton Mojo[/] !"
+                then: !GiveItem
+                  item: deku_stick
+                  then: !NextScene
+                    scene: start
+              no: !Monologue
+                from: dummy
+                texts:
+                  - "Vous n'obtenez rien."
+                then: !NextScene
+                  scene: start
+            lost: !NextStage
+              stage: game_over
+            fled: !NextScene
+              scene: start
         - text: "Combattre un groupe de Mojo Baba"
-          do:
+          do: !Combat
+            entities:
+              - deku_baba_stem
+              - deku_baba_head
+              - deku_baba_head
+            won: !CheckRandom
+              chance: 0.70
+              yes: !Monologue
+                from: dummy
+                texts:
+                  - "Vous obtenez une [red]Noix Mojo[/] !"
+                then: !GiveItem
+                  item: deku_nut
+                  then: !NextScene
+                    scene: start
+              no: !Monologue
+                from: dummy
+                texts:
+                  - "Vous n'obtenez rien."
+                then: !NextScene
+                  scene: start
+            lost: !NextStage
+              stage: game_over
+            fled: !NextScene
+              scene: start
         - text: "[underline]Aller vers le vénérable Arbre Mojo[/]"
           do: !NextStage
             stage: deku_tree

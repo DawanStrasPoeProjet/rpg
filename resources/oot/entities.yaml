@@ -3,7 +3,7 @@
   health: 48
   maxHealth: 48
   attack: 1
-  defense: 1
+  defense: 2
   isPlayer: true
 
 - id: dummy
@@ -57,6 +57,18 @@
   name: "Frère Je-Sais-Tout"
   defaultEquippedItemId: none
 
-- id: deku_baba
+- id: deku_baba_stem
   name: "Mojo Baba"
-  defaultEquippedItemId: deku_baba_weapon
+  defaultEquippedItemId: deku_baba_stem
+  attack: 1
+  defense: 1
+  health: 1
+  maxHealth: 1
+
+- id: deku_baba_head
+  name: "Mojo Baba"
+  defaultEquippedItemId: deku_baba_head
+  attack: 1
+  defense: 1
+  health: 2
+  maxHealth: 2
