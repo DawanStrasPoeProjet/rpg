@@ -1,4 +1,5 @@
-﻿using RPG.Core;
+﻿using System.Diagnostics;
+using RPG.Core;
 using RPG.Data.Db.Contexts;
 using RPG.Data.Db.Dao;
 
@@ -14,6 +15,8 @@ public class DbEntitySource : IEntitySource
 
     public IEntity Create(string id)
     {
+        Debug.WriteLine($"DbEntitySource::Create({id})");
+
         using var ctx = new RpgDbContext();
         var dao = new EntityDao(ctx);
         var entityModel = dao.FindEntityById(id);

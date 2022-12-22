@@ -1,4 +1,5 @@
-﻿using RPG.Core;
+﻿using System.Diagnostics;
+using RPG.Core;
 using RPG.Data.Db.Contexts;
 using RPG.Data.Db.Dao;
 
@@ -22,6 +23,8 @@ public class DbItemSource : IItemSource
 
     public IItem Create(string id)
     {
+        Debug.WriteLine($"DbItemSource::Create({id})");
+
         var itemModel = FindItem(id);
 
         if (itemModel is null)
