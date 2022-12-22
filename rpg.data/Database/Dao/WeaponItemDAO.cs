@@ -10,16 +10,16 @@ public class WeaponItemDAO : IItemDAO<Model.WeaponItem>
     public WeaponItemDAO()
     {
         context = new RpgContext();
-    }   
+    }
 
     public List<Model.WeaponItem> GetItems()
     {
         return context.WeaponItems.AsNoTracking().ToList();
     }
 
-    public Model.WeaponItem? FindItemById(int weaponId)
+    public Model.WeaponItem? FindItemById(string id)
     {
-        return context.WeaponItems.Find(weaponId);
+        return context.WeaponItems.FirstOrDefault(x => x.Id == id);
     }
 
     public void SaveOrUpdateItem(Model.WeaponItem item)

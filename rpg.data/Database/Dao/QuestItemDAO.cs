@@ -15,15 +15,15 @@ public class QuestItemDAO : IItemDAO<Model.QuestItem>
     {
         context= new RpgContext();
     }
-    
+
     public List<Model.QuestItem> GetItems()
     {
         return context.QuestItems.AsNoTracking().ToList();
     }
 
-    public Model.QuestItem? FindItemById(int questId)
+    public Model.QuestItem? FindItemById(string id)
     {
-        return context.QuestItems.Find(questId);        
+        return context.QuestItems.FirstOrDefault(x => x.Id == id);
     }
 
     public void SaveOrUpdateItem(Model.QuestItem item)
@@ -44,5 +44,5 @@ public class QuestItemDAO : IItemDAO<Model.QuestItem>
         context.QuestItems.Remove(item);
         context.SaveChanges();
     }
-        
+
 }

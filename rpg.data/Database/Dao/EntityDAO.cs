@@ -12,15 +12,15 @@ public class EntityDAO : IEntityDAO
     {
         context = new RpgContext();
     }
-        
+
     public List<Entity> GetEntities()
     {
         return context.Entities.AsNoTracking().ToList();
     }
 
-    public Entity? FindEntityById(int id)
+    public Entity? FindEntityById(string id)
     {
-        return context.Entities.Find(id);
+        return context.Entities.FirstOrDefault(x => x.Id == id);
     }
 
     void IEntityDAO.SaveOrUpdateEntity(Entity entity)

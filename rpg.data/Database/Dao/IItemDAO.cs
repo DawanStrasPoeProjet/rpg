@@ -3,7 +3,7 @@
 public interface IItemDAO<Item>
 {
     List<Item> GetItems();
-    Item? FindItemById(int id);
+    Item? FindItemById(string id);
     void SaveOrUpdateItem(Item item);
     void DeleteItem(Item item);
 }
