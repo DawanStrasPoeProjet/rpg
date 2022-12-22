@@ -4,7 +4,7 @@ using RPG.Data.Database.Model;
 
 namespace RPG.Data.Database.Dao;
 
-internal class EntityDAO : IEntityDAO
+public class EntityDAO : IEntityDAO
 {
     private RpgContext context;
 
@@ -18,9 +18,9 @@ internal class EntityDAO : IEntityDAO
         return context.Entities.AsNoTracking().ToList();
     }
 
-    public Entity? FindEntityById(string id)
+    public Entity? FindEntityById(int id)
     {
-        return context.Entities.AsNoTracking().SingleOrDefault(ent => ent.Id == id);
+        return context.Entities.Find(id);
     }
 
     void IEntityDAO.SaveOrUpdateEntity(Entity entity)
@@ -38,6 +38,7 @@ internal class EntityDAO : IEntityDAO
 
     void IEntityDAO.DeleteEntity(Entity entity)
     {
+
         context.Entities.Remove(entity);
         context.SaveChanges();
     }

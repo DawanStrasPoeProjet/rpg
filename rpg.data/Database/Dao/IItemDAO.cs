@@ -1,9 +1,9 @@
 ﻿namespace RPG.Data.Database.Dao;
 
-internal interface IItemDAO<Item>
+public interface IItemDAO<Item>
 {
     List<Item> GetItems();
-    Item? FindItemById(string id);
+    Item? FindItemById(int id);
     void SaveOrUpdateItem(Item item);
     void DeleteItem(Item item);
 }

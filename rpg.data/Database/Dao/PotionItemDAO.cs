@@ -3,7 +3,7 @@ using RPG.Data.Database.Context;
 
 namespace RPG.Data.Database.Dao;
 
-internal class PotionItemDAO : IItemDAO<Model.PotionItem>
+public class PotionItemDAO : IItemDAO<Model.PotionItem>
 {
     private RpgContext context;
 
@@ -18,17 +18,12 @@ internal class PotionItemDAO : IItemDAO<Model.PotionItem>
        return context.PotionItems.AsNoTracking().ToList();
     }
 
-    public Model.PotionItem? FindItemById(string id)
+    public Model.PotionItem? FindItemById(int potionId)
     {
-        return context.PotionItems.AsNoTracking().SingleOrDefault(p => p.Id == id);
+        return context.PotionItems.Find(potionId);
     }
 
     public void SaveOrUpdateItem(Model.PotionItem item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DeleteItem(Model.PotionItem item)
     {
         if (item.PotionId == 0)
         {
@@ -36,9 +31,15 @@ internal class PotionItemDAO : IItemDAO<Model.PotionItem>
         }
         else
         {
-            context.Entry(item).State= EntityState.Modified;
+            context.Entry(item).State = EntityState.Modified;
         }
-        
+
+        context.SaveChanges();
+    }
+
+    public void DeleteItem(Model.PotionItem item)
+    {
+        context.PotionItems.Remove(item);        
         context.SaveChanges();
     }
 }

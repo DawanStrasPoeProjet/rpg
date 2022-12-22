@@ -3,7 +3,7 @@ using RPG.Data.Database.Context;
 
 namespace RPG.Data.Database.Dao;
 
-internal class WeaponItemDAO : IItemDAO<Model.WeaponItem>
+public class WeaponItemDAO : IItemDAO<Model.WeaponItem>
 {
     private RpgContext context;
 
@@ -17,9 +17,9 @@ internal class WeaponItemDAO : IItemDAO<Model.WeaponItem>
         return context.WeaponItems.AsNoTracking().ToList();
     }
 
-    public Model.WeaponItem? FindItemById(string id)
+    public Model.WeaponItem? FindItemById(int weaponId)
     {
-        return context.WeaponItems.AsNoTracking().SingleOrDefault(wp => wp.Id == id);
+        return context.WeaponItems.Find(weaponId);
     }
 
     public void SaveOrUpdateItem(Model.WeaponItem item)

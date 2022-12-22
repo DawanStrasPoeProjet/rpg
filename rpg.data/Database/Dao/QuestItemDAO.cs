@@ -3,7 +3,7 @@ using RPG.Data.Database.Context;
 
 namespace RPG.Data.Database.Dao;
 
-internal class QuestItemDAO : IItemDAO<Model.QuestItem>
+public class QuestItemDAO : IItemDAO<Model.QuestItem>
 {
     private RpgContext context;
 
@@ -21,9 +21,9 @@ internal class QuestItemDAO : IItemDAO<Model.QuestItem>
         return context.QuestItems.AsNoTracking().ToList();
     }
 
-    public Model.QuestItem? FindItemById(string id)
+    public Model.QuestItem? FindItemById(int questId)
     {
-        return context.QuestItems.AsNoTracking().SingleOrDefault(quest => quest.Id == id);        
+        return context.QuestItems.Find(questId);        
     }
 
     public void SaveOrUpdateItem(Model.QuestItem item)
