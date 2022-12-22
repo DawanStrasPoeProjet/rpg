@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\resources\**">
+    <None Include="..\resources\**\**">
       <Link>resources\%(RecursiveDir)\%(FileName)%(Extension)</Link>
     </None>
   </ItemGroup>
