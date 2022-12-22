@@ -17,7 +17,7 @@ public class CombatSystem : ICombatSystem
 
     public CombatResult BeginCombat(IEntity source, IEnumerable<IEntity> entities)
     {
-        Debug.WriteLine("Le combat commence !\n");
+        Debug.WriteLine("Le combat commence !");
 
         this.Player = source;
         this.AliveEntities.Add(source);
@@ -38,7 +38,7 @@ public class CombatSystem : ICombatSystem
             TurnOrder,
             AliveEntities,
             entities,
-            "Le combat commence !",
+            "Le combat commence !\n\n",
             Turn);
         CombatUI.Display();
         CombatUI.WaitEnterKeyPress();
@@ -122,7 +122,7 @@ public class CombatSystem : ICombatSystem
     {
         bool healed = false;
 
-        CombatUI.Update(description: $"Tour de {monster.Name}.\n");
+        CombatUI.Update(description: $"Tour de {monster.Name}.\n\n");
         CombatUI.WaitEnterKeyPress();
 
         if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Any())
@@ -218,6 +218,7 @@ public class CombatSystem : ICombatSystem
             string newHP = $"{target.Name} a maintenant {target.Health}/{target.MaxHealth} points de vie...";
             string deathText = "";
             string finalDesc = "";
+            
             if (target.Health <= 0)
             {
                 deathText = $"[red]{target.Name} est mort[/] !";
@@ -227,11 +228,7 @@ public class CombatSystem : ICombatSystem
                 finalDesc = $"{dmgText}\n{newHP}\n{deathText}";
             }
             else
-                finalDesc = $"{dmgText}\n{newHP}";
-
-            ;
-            //finalDesc = finalDesc.Remove(finalDesc.TrimEnd().LastIndexOf("\n"));
-            Debug.WriteLine(finalDesc);
+                finalDesc = $"{dmgText}\n{newHP}\n";
 
             CombatUI.Update(
                 player: Player,

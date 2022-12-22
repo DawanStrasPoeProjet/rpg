@@ -59,7 +59,7 @@
   numDiceFaces: 8
   
 - !WeaponItem
-  id: dague
+  id: dagger
   tags:
     - fast
   name: Dague

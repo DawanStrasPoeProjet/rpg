@@ -284,10 +284,14 @@ namespace RPG.Combat.UI
         // Création du string contenant les informations du joueur
         private string PlayerInfo()
         {
-            return $"Nom: {Player.Name} \n" +
-                $"HP: {Player.Health}/{Player.MaxHealth} \n" +
-                $"Arme: {Player.EquippedItem.Name} \n" +
-                $"Inventaire:\n{PlayerInventoryInfo()}";
+            string name = $"Nom: {Player.Name} \n";
+            string health = Player.Health > 0 ?
+                $"HP: {Player.Health}/{Player.MaxHealth} \n" :
+                $"HP: [red]{Player.Health}/{Player.MaxHealth}[/]\n";
+            string weapon = $"Arme: {Player.EquippedItem.Name} \n\n";
+            string inventory = $"Inventaire:\n{PlayerInventoryInfo()}";
+
+            return name + health + weapon + inventory;
         }
 
         // Création du string contenant les informations de l'inventaire du joueur
