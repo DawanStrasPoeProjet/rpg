@@ -2,6 +2,7 @@
 using RPG.Combat;
 using RPG.Core;
 using RPG.Data;
+using RPG.Data.Db;
 using RPG.Inventory;
 using RPG.Stage;
 using Spectre.Console;
@@ -31,7 +32,14 @@ internal static class Program
         AnsiConsole.Write(new Rule("RPG") { Justification = Justify.Left });
         AnsiConsole.WriteLine();
 
-        var choices = new[] { "Histoire basée sur Ocarina of Time", "Combat de démo", "Quitter" };
+        var choices = new[]
+        {
+            "Histoire basée sur Ocarina of Time",
+            "Combat de démo (source de données : fichiers yaml)",
+            "Combat de démo (source de données : base de données)",
+            "Combat de démo (source de données : base de données avec cache)",
+            "Quitter"
+        };
         var choice = AnsiConsole.Prompt(new SelectionPrompt<string>
             {
                 WrapAround = true
@@ -44,6 +52,10 @@ internal static class Program
             return CreateStoryScenario(heroName);
         if (choice == choices[1])
             return CreateCombatScenario(heroName);
+        if (choice == choices[2])
+            return CreateCombatScenarioDb(heroName);
+        if (choice == choices[3])
+            return CreateCombatScenarioDbCached(heroName);
 
         return null;
     }
@@ -60,6 +72,22 @@ internal static class Program
     {
         var itemSource = new YamlItemSource("resources/items.yaml");
         var entitySource = new YamlEntitySource(itemSource, "resources/entities.yaml");
+        return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(),
+            new DemoCombatStage(heroName));
+    }
+
+    private static IGame CreateCombatScenarioDb(string heroName)
+    {
+        var itemSource = new DbItemSource();
+        var entitySource = new DbEntitySource(itemSource);
+        return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(),
+            new DemoCombatStage(heroName));
+    }
+
+    private static IGame CreateCombatScenarioDbCached(string heroName)
+    {
+        var itemSource = new CachedDbItemSource();
+        var entitySource = new CachedDbEntitySource(itemSource);
         return new Game(itemSource, entitySource, new InventorySystem(), new CombatSystem(),
             new DemoCombatStage(heroName));
     }
