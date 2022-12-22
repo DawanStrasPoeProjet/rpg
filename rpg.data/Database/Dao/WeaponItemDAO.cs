@@ -19,7 +19,7 @@ internal class WeaponItemDAO : IItemDAO<Model.WeaponItem>
 
     public Model.WeaponItem? FindItemById(string id)
     {
-        return context.WeaponItems.Find(id);
+        return context.WeaponItems.AsNoTracking().SingleOrDefault(wp => wp.Id == id);
     }
 
     public void SaveOrUpdateItem(Model.WeaponItem item)

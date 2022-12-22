@@ -36,7 +36,6 @@ public class DbEntitySource : IEntitySource
         if (entity.EquippedItemId != null)
             e.EquipNewItemById(entity.EquippedItemId);
         return e;
-        throw new ArgumentException($"invalid item id `{id}`", nameof(id));
 
     }
 

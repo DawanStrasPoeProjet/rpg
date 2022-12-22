@@ -59,7 +59,7 @@ public class DbItemSource : IItemSource
         {
             return potion.Name;
         }
-       
+        throw new ArgumentException($"invalid item id `{id}`", nameof(id));
     }
 
     public string GetDescription(string id)
@@ -81,6 +81,7 @@ public class DbItemSource : IItemSource
         else
         {
             return potion.Description;
-        }            
+        }
+        throw new ArgumentException($"invalid item id `{id}`", nameof(id));
     }
 }

@@ -12,10 +12,10 @@ public class Entity
 {
     [Key] public int EntityId { get; set; }
     public string Id { get; set; }
-    public string Tags { get; set; } // "player,blah"
-    public string BagItemIds { get; set; } // "small_life_potion,small_key"
+    public string? Tags { get; set; } // "player,blah"
+    public string? BagItemIds { get; set; } // "small_life_potion,small_key"
     public string DefaultEquippedItemId { get; set; } // "fist"
-    public string EquippedItemId { get; set; } 
+    public string? EquippedItemId { get; set; } 
     public string Name { get; set; }
     public int Initiative { get; set; }
     public int Health { get; set; }

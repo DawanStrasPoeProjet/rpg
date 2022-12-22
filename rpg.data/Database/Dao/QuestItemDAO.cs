@@ -23,7 +23,7 @@ internal class QuestItemDAO : IItemDAO<Model.QuestItem>
 
     public Model.QuestItem? FindItemById(string id)
     {
-        return context.QuestItems.Where(quest => quest.Id == id).SingleOrDefault();
+        return context.QuestItems.AsNoTracking().SingleOrDefault(quest => quest.Id == id);        
     }
 
     public void SaveOrUpdateItem(Model.QuestItem item)

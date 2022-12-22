@@ -20,7 +20,7 @@ internal class PotionItemDAO : IItemDAO<Model.PotionItem>
 
     public Model.PotionItem? FindItemById(string id)
     {
-        return context.PotionItems.Find(id);
+        return context.PotionItems.AsNoTracking().SingleOrDefault(p => p.Id == id);
     }
 
     public void SaveOrUpdateItem(Model.PotionItem item)

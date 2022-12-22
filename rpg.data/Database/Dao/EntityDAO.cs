@@ -20,7 +20,7 @@ internal class EntityDAO : IEntityDAO
 
     public Entity? FindEntityById(string id)
     {
-        return context.Entities.Find(id);
+        return context.Entities.AsNoTracking().SingleOrDefault(ent => ent.Id == id);
     }
 
     void IEntityDAO.SaveOrUpdateEntity(Entity entity)

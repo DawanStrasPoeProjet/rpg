@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPG.Data.Database.Context;
 
@@ -10,9 +11,10 @@ using RPG.Data.Database.Context;
 namespace RPG.Data.Migrations
 {
     [DbContext(typeof(RpgContext))]
-    partial class RpgContextModelSnapshot : ModelSnapshot
+    [Migration("20221222103401_ModificationNullable")]
+    partial class ModificationNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
