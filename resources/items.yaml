@@ -4,7 +4,39 @@
     - fast
   name: Poings
   description: Des poings...
-  baseDamage: 5
+  baseDamage: 2
+  numDiceRolls: 1
+  numDiceFaces: 4
+  
+- !WeaponItem
+  id: fangs
+  tags:
+    - fast
+  name: Crocs
+  description: Des crocs acérés...
+  baseDamage: 1
+  numDiceRolls: 1
+  numDiceFaces: 8
+  
+- !WeaponItem
+  id: claws
+  tags:
+    - fast
+  name: Griffes
+  description: Des griffes...
+  baseDamage: 2
+  numDiceRolls: 1
+  numDiceFaces: 6
+
+- !WeaponItem
+  id: greatsword
+  tags:
+    - slow
+  name: Espadon
+  description: Un espadon...
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 12
 
 - !WeaponItem
   id: sword
@@ -12,7 +44,49 @@
     - fast
   name: Épée
   description: Une épée...
-  baseDamage: 20
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 8
+
+- !WeaponItem
+  id: warhammer
+  tags:
+    - slow
+  name: Marteau de guerre
+  description: Un marteau de guerre...
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 8
+  
+- !WeaponItem
+  id: dague
+  tags:
+    - fast
+  name: Dague
+  description: Une dague...
+  baseDamage: 5
+  numDiceRolls: 2
+  numDiceFaces: 4
+
+- !WeaponItem
+  id: longbow
+  tags:
+    - fast
+  name: Arc long
+  description: Un arc long...
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 8
+
+- !WeaponItem
+  id: shortbow
+  tags:
+    - fast
+  name: Arc court
+  description: Un arc court...
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 6
 
 - !WeaponItem
   id: axe
@@ -20,7 +94,9 @@
     - slow
   name: Hache
   description: Une hache...
-  baseDamage: 15
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 10
 
 - !PotionItem
   id: small_life_potion
@@ -49,10 +125,23 @@
   description: Une potion de vie majeure. Restaure 40 hp.
   health: 40
   
-
 - !QuestItem
   id: small_key
   tags:
     - key
   name: Petite clé
   description: Une petite clé...
+
+- !QuestItem
+  id: large_key
+  tags:
+    - key
+  name: Grosse clé
+  description: Une grosse clé...
+
+- !QuestItem
+  id: boss_key
+  tags:
+    - key
+  name: Clé du boss
+  description: Une grosse clé une tête de mort...

@@ -4,41 +4,78 @@
     - player
   bagItemIds:
     - small_life_potion
-    - large_life_potion
+    - life_potion
     - small_life_potion
-    - small_key
   defaultEquippedItemId: fist
-  equippedItemId: axe
-  initiative: 200
-  health: 1000
-  maxHealth: 1000
-  attack: 1
-  defense: 1
-  money: 500
+  equippedItemId: greatsword
+  initiative: 12
+  health: 80
+  maxHealth: 80
+  attack: 20
+  defense: 15
+  money: 0
   isPlayer: true
 
-- id: swordsman1
-  name: Target1
-  bagItemIds:
-    - life_potion
-    - small_key
-    - life_potion
-  defaultEquippedItemId: sword
-  health: 80
-  maxHealth: 80
-  initiative: 200
+- id: orc
+  name: Orc
+  defaultEquippedItemId: warhammer
+  health: 40
+  maxHealth: 40
+  initiative: 8
+  attack: 20
+  defense: 10
  
 
-- id: swordsman2
-  name: Target2
+- id: bandit
+  name: Bandit
   defaultEquippedItemId: sword
-  health: 80
-  maxHealth: 80
-  initiative: 200
+  bagItemIds:
+    - small_life_potion
+  health: 30
+  maxHealth: 30
+  initiative: 12
+  attack: 15
+  defense: 15
 
-- id: swordsman3
-  name: Target3
-  defaultEquippedItemId: sword
-  health: 80
-  maxHealth: 80
-  initiative: 200
+- id: bandit_archer
+  name: Bandit Archer
+  defaultEquippedItemId: shortbow
+  bagItemIds:
+    - small_life_potion
+  health: 30
+  maxHealth: 30
+  initiative: 12
+  attack: 15
+  defense: 15
+
+- id: thief
+  name: Voleur
+  bagItemIds:
+    - life_potion
+  defaultEquippedItemId: dagger
+  health: 20
+  maxHealth: 25
+  initiative: 16  
+  attack: 17
+  defense: 16
+
+- id: alchemist
+  name: Alchimiste
+  defaultEquippedItemId: fist
+  health: 60
+  maxHealth: 60
+  bagItemIds:
+    - large_life_potion
+    - small_life_potion
+  initiative: 13
+  attack: 10
+  defense: 5
+  
+- id: mojo_baba
+  name: Mojo
+  defaultEquippedItemId: fangs
+  health: 20
+  maxHealth: 20
+  initiative: 5
+  attack: 15
+  defense: 0
