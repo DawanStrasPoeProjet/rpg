@@ -15,7 +15,12 @@
     <ProjectReference Include="..\rpg.data\rpg.data.csproj" />
     <ProjectReference Include="..\rpg.inventory\rpg.inventory.csproj" />
     <ProjectReference Include="..\rpg.stage\rpg.stage.csproj" />
-    <ProjectReference Include="..\rpg.ui\rpg.ui.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\resources\**">
+      <Link>resources\%(RecursiveDir)\%(FileName)%(Extension)</Link>
+    </None>
   </ItemGroup>
 
 </Project>
