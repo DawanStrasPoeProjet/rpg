@@ -34,7 +34,7 @@ internal static class Program
 
         var choices = new[]
         {
-            "Histoire basée sur Ocarina of Time",
+            "Quête basée sur Ocarina of Time",
             "Combat de démo (source de données : fichiers yaml)",
             "Combat de démo (source de données : base de données)",
             "Combat de démo (source de données : base de données avec cache)",
