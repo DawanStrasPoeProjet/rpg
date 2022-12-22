@@ -1,0 +1,189 @@
+﻿name: Boutique Kokiri
+actors:
+  - dummy
+  - twin_sister
+  - shop_keeper
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Parler à la jumelle"
+          do: !NextScene
+            scene: talk_to_sister
+        - text: "Récupérer le rubis caché"
+          if: !IsFlagUnset
+            flag: kf_shop_HiddenRupee
+          do: !NextScene
+            scene: get_hidden_rupee
+        - text: "Parler au vendeur"
+          do: !NextScene
+            scene: talk_to_shop_keeper
+
+  - id: talk_to_sister
+    do: !Monologue
+      from: twin_sister
+      texts:
+        - "Ce que propose cette boutique\nse trouve dans la forêt !\nTii hii !"
+        - "Tu sais comment ça s'utilise un\n[red]Bouclier Mojo[/], hein, tu l'sais ??"
+        - "Tii hii !"
+      then: !NextScene
+        scene: start
+
+  - id: get_hidden_rupee
+    do: !Monologue
+      from: dummy
+      texts:
+        - Vous obtenez 1 rubis bleu.
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_shop_HiddenRupee
+          then: !NextScene
+            scene: start
+
+  - id: talk_to_shop_keeper
+    do: !Monologue
+      from: shop_keeper
+      texts:
+        - "Bienvenue !"
+        - "Nous vendons des boucliers, mais\npas d'épées !"
+      then: !NextScene
+        scene: shop
+
+  - id: shop
+    do: !Choices
+      title: "Sélectionnez un article."
+      choices:
+        - text: "Quitter"
+          do: !NextScene
+            scene: start
+        - text: "[red]Coeur de vie (10 Rubis)[/]"
+          do: !Choices
+            title: "Il restaurera une petite partie\nde votre énergie."
+            choices:
+              - text: "Acheter"
+                do: !CheckHasntHealth
+                  health: 4
+                  no: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous ne pouvez pas acheter\nceci maintenant."
+                    then: !NextScene
+                      scene: shop
+                  yes: !CheckHasMoney
+                    money: 10
+                    no: !Monologue
+                      from: dummy
+                      texts:
+                        - "Vous n'avez pas assez d'argent !"
+                      then: !NextScene
+                        scene: shop
+                    yes: !Monologue
+                      from: shop_keeper
+                      texts:
+                        - "Merci beaucoup !"
+                      then: !Monologue
+                        from: dummy
+                        texts:
+                          - "Vous récupérez 16 points de vie."
+                        then: !TakeMoney
+                          money: 10
+                          then: !GiveHealth
+                            health: 16
+                            then: !NextScene
+                              scene: shop
+              - text: "Ne pas acheter"
+                do: !NextScene
+                  scene: shop
+        - text: "[red]Noix Mojo (10 Rubis)[/]"
+          do: !Choices
+            title: "Utilisez ces projectiles pour\nparalyser vos ennemis."
+            choices:
+              - text: "Acheter"
+                do: !CheckHasMoney
+                  money: 10
+                  no: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous n'avez pas assez d'argent !"
+                    then: !NextScene
+                      scene: shop
+                  yes: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous obtenez un [red]Noix Mojo[/] !"
+                    then: !TakeMoney
+                      money: 10
+                      then: !GiveItem
+                        item: deku_nut
+                        then: !NextScene
+                          scene: shop_ask_buy_again
+              - text: "Ne pas acheter"
+                do: !NextScene
+                  scene: shop
+        - text: "[red]Bâton Mojo (10 Rubis)[/]"
+          do: !Choices
+            title: "Bien que fragile, cette longue\nbranche provenant de l'Arbre Mojo\npeut vous servir d'arme."
+            choices:
+              - text: "Acheter"
+                do: !CheckHasMoney
+                  money: 10
+                  no: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous n'avez pas assez d'argent !"
+                    then: !NextScene
+                      scene: shop
+                  yes: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous obtenez un [red]Bâton Mojo[/] !"
+                    then: !TakeMoney
+                      money: 10
+                      then: !GiveItem
+                        item: deku_stick
+                        then: !NextScene
+                          scene: shop_ask_buy_again
+              - text: "Ne pas acheter"
+                do: !NextScene
+                  scene: shop
+        - text: "[red]Bouclier Mojo (40 Rubis)[/]"
+          do: !Choices
+            title: "Une fois équipé, vous l'utiliserez\npour vous protéger. Prenez garde\nà ce qu'il ne brûle pas !"
+            choices:
+              - text: "Acheter"
+                do: !CheckHasMoney
+                  money: 40
+                  no: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous n'avez pas assez d'argent !"
+                    then: !NextScene
+                      scene: shop
+                  yes: !Monologue
+                    from: dummy
+                    texts:
+                      - "Vous obtenez un [red]Bouclier Mojo[/] !"
+                    then: !TakeMoney
+                      money: 40
+                      then: !GiveItem
+                        item: deku_shield
+                        then: !NextScene
+                          scene: shop_ask_buy_again
+              - text: "Ne pas acheter"
+                do: !NextScene
+                  scene: shop
+
+  - id: shop_ask_buy_again
+    do: !Choices
+      title: "Désirez-vous autre chose ?"
+      choices:
+        - text: "[green]Oui ! J'en veux encore ![/]"
+          do: !NextScene
+            scene: shop
+        - text: "[green]Non ! J'en veux plus ![/]"
+          do: !NextScene
+            scene: start

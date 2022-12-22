@@ -1,0 +1,110 @@
+﻿name: Forêt Kokiri
+actors:
+  - dummy
+  - sign
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Ramasser les rubis bleus par terre"
+          if: !IsFlagUnset
+            flag: kf_small_hole_GotRupees
+          do: !NextScene
+            scene: get_blue_rupees
+        - text: "Fouiller les hautes herbes"
+          do: !NextScene
+            scene: dig_grass
+        - text: "Se faire écraser par le rocher en mouvement"
+          do: !NextScene
+            scene: hurt_by_boulder
+        - text: "Lire le panneau devant le coffre"
+          do: !Monologue
+            from: sign
+            texts:
+              - "Venez voir les fabuleux\n[orange1]Frères Je-Sais-Tout[/]\nEt vos questions ne resteront\nplus sans réponse !!"
+            then: !NextScene
+              scene: start
+        - text: "Ouvrir le coffre"
+          if: !IsFlagUnset
+            flag: kf_small_hole_OpenChest
+          do: !NextScene
+            scene: open_chest
+        - text: "Trancher de l'herbe"
+          if: !HasEquip
+            item: kokiris_sword
+          do: !NextScene
+            scene: cut_grass
+
+  - id: get_blue_rupees
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez 2 rubis bleus."
+      then: !GiveMoney
+        money: 10
+        then: !SetFlag
+          flag: kf_small_hole_GotRupees
+          then: !NextScene
+            scene: start
+
+  - id: dig_grass
+    do: !CheckRandom
+      chance: 0.20
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis vert."
+        then: !GiveMoney
+          money: 1
+          then: !NextScene
+            scene: start
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: start
+
+  - id: hurt_by_boulder
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous perdez 4 points de vie !"
+      then: !TakeHealth
+        health: 4
+        then: !NextScene
+          scene: start
+
+  - id: open_chest
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous trouvez l'[red]Epée Kokiri[/] !"
+        - "Cette lame est le trésor\nsecret de la tribu Kokiri.\nN'hésitez pas à vous entraîner\navant de croiser le fer !"
+      then: !EquipItem
+        item: kokiris_sword
+        then: !SetFlag
+          flag: kf_small_hole_OpenChest
+          then: !NextScene
+            scene: start
+
+  - id: cut_grass
+    do: !CheckRandom
+      chance: 0.60
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis vert."
+        then: !GiveMoney
+          money: 1
+          then: !NextScene
+            scene: start
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: start

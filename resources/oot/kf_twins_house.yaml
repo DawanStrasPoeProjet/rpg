@@ -1,0 +1,61 @@
+﻿name: Cabane des Jumelles
+actors:
+  - dummy
+  - twin_sister
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Parler à la jumelle"
+          do: !NextScene
+            scene: talk_to_sister
+        - text: "Casser un pot (1)"
+          if: !IsFlagUnset
+            flag: kf_twins_BrokePot1
+          do: !NextScene
+            scene: break_pot_1
+        - text: "Casser un pot (2)"
+          if: !IsFlagUnset
+            flag: kf_twins_BrokePot2
+          do: !NextScene
+            scene: break_pot_2
+
+  - id: talk_to_sister
+    do: !Monologue
+      from: twin_sister
+      texts:
+        - "Ma soeur est partie faire des\nemplettes à la boutique au toit\nrouge. Hi hi !"
+        - "Au faut, un [red]Rubis[/] [green]vert[/] ne vaut\nqu'un rubis, mais un [blue]bleu[/] en vaut\ncinq et un [red]rouge[/] en vaut vingt !\nHii hii hihi !"
+      then: !NextScene
+        scene: start
+
+  - id: break_pot_1
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez 1 rubis vert."
+      then: !GiveMoney
+        money: 1
+        then: !SetFlag
+          flag: kf_twins_BrokePot1
+          then: !NextScene
+            scene: start
+
+  - id: break_pot_2
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez 1 rubis bleu."
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_twins_BrokePot2
+          then: !NextScene
+            scene: start
+
+clearFlags:
+  - kf_twins_BrokePot1
+  - kf_twins_BrokePot2

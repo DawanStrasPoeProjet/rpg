@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
       <ProjectReference Include="..\rpg.data\rpg.data.csproj" />
+      <ProjectReference Include="..\rpg.stage.ui\rpg.stage.ui.csproj" />
     </ItemGroup>
 
     <ItemGroup>

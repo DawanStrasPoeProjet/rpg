@@ -1,0 +1,9 @@
+﻿name: Bois Perdus
+scenes:
+  - id: start
+    do: !Choices
+      title: "[red]Indisponible dans la démo.[/]"
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest

@@ -1,0 +1,21 @@
+name: Cabane de $HeroName
+actors:
+  - kf_links_house_records_table
+scenes:
+  - id: start
+    do: !Choices
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kokiri_forest
+        - text: "Voir les records"
+          do: !NextScene
+            scene: show_records
+
+  - id: show_records
+    do: !Monologue
+      from: kf_links_house_records_table
+      texts:
+        - "Aucun record enregistré."
+      then: !NextScene
+        scene: start

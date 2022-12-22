@@ -1,0 +1,528 @@
+﻿name: Forêt Kokiri
+actors:
+  - dummy
+  - sign
+  - saria
+  - mido
+  - kokiri
+  - twin_sister
+  - fado
+scenes:
+  - id: start
+    do: !NextScene
+      scene: saria_intro
+
+  - id: saria_intro
+    do: !CheckFlag
+      flag: kf_hub_SariaIntro
+      set: true
+      no: !Monologue
+        from: saria
+        texts:
+          - "Hé ! Salut, $HeroName !"
+        then: !NextScene
+          scene: roam
+      yes: !NextScene
+        scene: roam
+
+  - id: roam
+    do: !Choices
+      choices:
+        - text: "[underline]Aller dans la cabane de $HeroName[/]"
+          do: !NextStage
+            stage: kf_links_house
+        - text: "Parler à Saria"
+          do: !NextScene
+            scene: talk_to_saria
+        - text: "[underline]Aller dans la cabane de Saria[/]"
+          do: !NextStage
+            stage: kf_sarias_house
+        - text: "Parler au Kokiri devant la cabane de Saria"
+          do: !NextScene
+            scene: talk_to_kokiri_near_sarias
+        - text: "[underline]Aller dans la cabane des jumelles[/]"
+          do: !NextStage
+            stage: kf_twins_house
+        - text: "Lire le panneau devant Mido"
+          do: !Monologue
+            from: sign
+            texts:
+              - "Droit devant :\nLa [green]Clairière du Vénérable\nArbre Mojo[/]"
+            then: !NextScene
+              scene: roam
+        - text: "Parler à Mido"
+          do: !NextScene
+            scene: talk_to_mido
+        - text: "[underline]Aller sur le chemin vers le vénérable Arbre Mojo[/]"
+          if: !IsFlagSet
+            flag: kf_hub_TalkedToMido2
+          do: !NextScene
+            scene: goto_deku_tree
+        - text: "Lire le panneau devant la boutique"
+          do: !Monologue
+            from: sign
+            texts:
+              - "[green]Boutique Kokiri[/]\nFournisseur officiel du\npeuple sylvestre !"
+            then: !NextScene
+              scene: roam
+        - text: "[underline]Aller dans la boutique[/]"
+          do: !NextStage
+            stage: 'kf_shop'
+        - text: "Examiner le carré de terre à côté de la boutique"
+          do: !Monologue
+            from: dummy
+            texts:
+              - "On dirait de la terre faîchement\nretournée."
+            then: !NextScene
+              scene: roam
+        - text: "Lire le panneau à côté de la boutique, proche des plateformes"
+          do: !NextScene
+            scene: talk_to_sign_near_shop
+        - text: "Parler à la jumelle proche des plateformes"
+          do: !NextScene
+            scene: talk_to_sister_near_platforms
+        - text: "Lire le panneau devant la cabane de Mido"
+          do: !Monologue
+            from: sign
+            texts:
+              - "Cabane du Grand [orange1]Mido[/]\nChef des Kokiris"
+            then: !NextScene
+              scene: roam
+        - text: "[underline]Aller dans la cabane de Mido[/]"
+          do: !NextStage
+            stage: kf_midos_house
+        - text: "Récupérer le rubis bleu caché derrière la cabane de Mido"
+          if: !IsFlagUnset
+            flag: kf_hub_RupeeBehindMidos
+          do: !NextScene
+            scene: get_rupee_behind_midos
+        - text: "Parler au Kokiri devant la cabane de Mido"
+          do: !NextScene
+            scene: talk_to_kokiri_near_midos
+        - text: "Parler au Kokiri en hauteur, Fado"
+          do: !NextScene
+            scene: talk_to_fado
+        - text: "Récupérer le rubis bleu à côté de Fado"
+          if: !IsFlagUnset
+            flag: kf_hub_RupeeNearFado
+          do: !NextScene
+            scene: get_rupee_near_fado
+        - text: "[underline]Aller dans les Bois Perdus[/]"
+          do: !NextStage
+            stage: kf_lost_woods
+        - text: "Examiner la Pierre à Potins devant les Bois Perdus"
+          do: !Monologue
+            from: dummy
+            texts:
+              - "L'oeil de cette statue perce les\nmystères de votre esprit..."
+            then: !NextScene
+              scene: roam
+        - text: "Lire le panneau devant la sortie du village"
+          do: !Monologue
+            from: sign
+            texts:
+              - "[green]Un Kokiri ne quitte jamais\nla Forêt.[/]"
+            then: !NextScene
+              scene: roam
+        - text: "Parler au Kokiri devant la sortie du village"
+          do: !NextScene
+            scene: talk_to_kokiri_near_exit
+        - text: "Parler à la jumelle proche de l'aire d'entraînement sylvestre"
+          do: !NextScene
+            scene: talk_to_sister_near_training
+        - text: "[underline]Aller dans la cabane des Frères Je-Sais-Tout[/]"
+          do: !NextStage
+            stage: kf_bros_house
+        - text: "Lire le panneau devant l'aire d'entraînement sylvestre"
+          do: !Monologue
+            from: sign
+            texts:
+              - "[mediumpurple3]Aire d'Entraînement Sylvestre[/]\nPrière de ne pas trancher les\npancartes comme un barbare..."
+            then: !NextScene
+              scene: roam
+        - text: "Trancher une pancarte"
+          if: !HasEquip
+            item: kokiris_sword
+          do: !NextScene
+            scene: cut_sign
+        - text: "Lire le panneau devant le passage étroit"
+          do: !Monologue
+            from: sign
+            texts:
+              - "[mediumpurple3]Passage étroit[/]\nFaufilez-vous dans ce trou !"
+            then: !NextScene
+              scene: roam
+        - text: "[underline]Se faufiler dans le passage étroit[/]"
+          do: !NextStage
+            stage: kf_small_hole
+        - text: "Fouiller les hautes herbes"
+          do: !NextScene
+            scene: dig_grass
+        - text: "Jeter une pierre (1)"
+          do: !NextScene
+            scene: throw_rock_1
+        - text: "Jeter une pierre (2)"
+          do: !NextScene
+            scene: throw_rock_2
+        - text: "Trancher de l'herbe"
+          if: !HasEquip
+            item: kokiris_sword
+          do: !NextScene
+            scene: cut_grass
+
+  - id: talk_to_saria
+    do: !CheckFlag
+      flag: kf_hub_TalkedToMido
+      no: !CheckFlag
+        flag: kf_hub_TalkedToSaria1
+        set: true
+        no: !Monologue
+          from: saria
+          texts:
+            - "Whoaaa ! Une fée !!"
+            - "Enfin tu as reçu une fée,\n$HeroName !"
+            - "Yipii ! Quelle bonne nouvelle !\nJe suis si heureuse !"
+            - "Tu es maintenant un vrai Kokiri,\n$HeroName !"
+            - "Alors, c'est vrai ?\nLe très vénérable Arbre Mojo t'a convoqué ?"
+            - "C'est un véritable honneur d'être\nconvoqué par le vénérable Arbre\nMojo, tu sais !"
+            - "Je vais t'attendre ici !\nVa voir le vénérable Arbre Mojo !"
+          then: !NextScene
+            scene: roam
+        yes: !Monologue
+          from: saria
+          texts:
+            - "Je vais t'attendre ici !\nVa voir le vénérable Arbre Mojo !"
+          then: !NextScene
+            scene: roam
+      yes: !CheckFlag
+        flag: kf_hub_TalkedToSaria2
+        set: true
+        no: !Monologue
+          from: saria
+          texts:
+            - "Quoi ?!\n[red]Mido[/] ne veut pas te laisser voir\nle vénérable Arbre Mojo ?"
+            - "Ohh... Le vilain ! Je ne sais\npas pourquoi il est si méchant\navec tout le monde !"
+            - "Même s'il a raison cette fois-ci !"
+            - "Il se passe des choses étranges\ndans la forêt..."
+            - "Sois prêt à tout !\nTu ferais mieux de te trouver une\narme !"
+            - "Va t'acheter un [blue]bouclier[/] à la\nboutique Kokiri. Mais pour l'[red]épée[/]...\nCherche bien du côté de la forêt !"
+          then: !NextScene
+            scene: roam
+        yes: !Monologue
+          from: saria
+          texts:
+            - "Va t'acheter un [blue]bouclier[/] à la\nboutique Kokiri. Mais pour l'[red]épée[/]...\nCherche bien du côté de la forêt !"
+          then: !NextScene
+            scene: roam
+
+  - id: talk_to_mido
+    do: !CheckHasEquip
+      item: kokiris_sword
+      no: !NextScene
+        scene: talk_to_mido_2
+      yes: !CheckHasItem
+        item: deku_shield
+        no: !NextScene
+          scene: talk_to_mido_2
+        yes: !CheckFlag
+          flag: kf_hub_TalkedToMido2
+          set: true
+          no: !Monologue
+            from: mido
+            texts:
+              - "Si tu veux voir le Vénérable Arbre\nMojo, il te faut d'abord une [red]épée[/]\net un [blue]bouclier[/] !"
+              - "Heu... C'est quoi ça ?!"
+              - "Oh ! Tu as un [blue]Bouclier Mojo[/]..."
+              - "Et pis ça c'est quoi ?!"
+              - "Mais... C'est l'[red]Épée Kokiri[/] !?"
+              - "BEN CA ALORS !!"
+              - "Enfin... Même avec tout ça,\nune mauviette est toujours une\nmauviette, hein ?"
+              - "Moââ, le grand Mido, je ne\nt'accepterai jamais comme l'un\ndes nôtres !"
+              - "Et puis d'abord, comment t'as fait\npour être le chouchou de Saria et\ndu vénérable Arbre Mojo ?!\n.......Pfeuuh !......."
+            then: !SetFlag
+              flag: kf_hub_TalkedToMido
+              then: !SetFlag
+                flag: kf_hub_TalkedToSaria1
+                then: !SetFlag
+                  flag: kf_hub_TalkedToSaria2
+                  then: !NextScene
+                    scene: roam
+          yes: !Monologue
+            from: mido
+            texts:
+              - "Moââ, le grand Mido, je ne\nt'accepterai jamais comme l'un\ndes nôtres !"
+              - "Et puis d'abord, comment t'as fait\npour être le chouchou de Saria et\ndu vénérable Arbre Mojo ?!\n.......Pfeuuh !......."
+            then: !NextScene
+              scene: roam
+
+  - id: talk_to_mido_2
+    do: !CheckFlag
+      flag: kf_hub_TalkedToMido
+      set: true
+      no: !Monologue
+        from: mido
+        texts:
+          - "Hé, toi là !\n\"[blue]Monsieur J'ai-pas-d'fée[/] !\"\nTu lui veux quoi au vénérable\nArbre Mojo ?"
+          - "Sans fée t'es même pas un vrai\nKokiri, d'abord !"
+          - "Quoi ?!? Tu as une fée ?!\nComment ? Le Vénérable Arbre\nMojo t'a convoqué ?"
+          - "Heiiiiinnnnnnnn ?!"
+          - "Et pourquoi j'suis pas\nconvoqué, moi le grand [red]Mido[/] ?"
+          - "C'est pas juste..."
+          - "J'te crois pas !\nTu n'es même pas équipé !"
+          - "Comment pourrais-tu aider le\nVénérable Arbre Mojo sans [red]épée[/]\nni [blue]bouclier[/], hein !?"
+          - "Quoi ?\nOk, mon équipement non plus n'est\npas prêt mais...\nEt puis de quoi j'me mêle ?"
+          - "Si tu veux passer, [green]équipe-toi[/]\nd'abord d'une [red]épée[/] et d'un [blue]bouclier[/],\nminus !"
+          - "Pfeuh !"
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: mido
+        texts:
+          - "Si tu veux passer, [green]équipe-toi[/]\nd'abord d'une [red]épée[/] et d'un [blue]bouclier[/],\nminus !"
+          - "Pfeuh !"
+        then: !NextScene
+          scene: roam
+
+  - id: talk_to_kokiri_near_sarias
+    do: !CheckFlag
+      flag: kf_hub_TalkedToKokiriNearSarias
+      set: true
+      no: !Monologue
+        from: kokiri
+        texts:
+          - "Cette peste de [red]Mido[/] m'a obligé à\ntondre la pelouse devant la maison\nde Saria."
+          - "Mido drague Saria en lui rendant\nservice ! Mais au bout du compte\nc'est moi qui me tape le sale\nboulot à sa place !"
+          - "Toi et [red]Saria[/], vous êtes plutôt\ncopains, non ? Alors pourquoi tu\nm'aiderais pas un peu à couper\ncette herbe !"
+          - "Tu n'as qu'à garder tout ce que tu\ny trouveras."
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: kokiri
+        texts:
+          - "Toi et [red]Saria[/], vous êtes plutôt\ncopains, non ? Alors pourquoi tu\nm'aiderais pas un peu à couper\ncette herbe !"
+          - "Tu n'as qu'à garder tout ce que tu\ny trouveras."
+        then: !NextScene
+          scene: roam
+
+  - id: talk_to_sign_near_shop
+    do: !Monologue
+      from: sign
+      texts:
+        - "[orange1]Sauter sur les pierres[/]"
+        - "Sautez sur toutes les pierres et\nvous passerez une bonne journée !\n(proverbe Kokiri)"
+      then: !CheckFlag
+        flag: kf_hub_JumpedOnPlatforms
+        set: true
+        no: !Monologue
+          from: dummy
+          texts:
+            - Vous obtenez 1 rubis bleu.
+          then: !GiveMoney
+            money: 5
+            then: !NextScene
+              scene: roam
+        yes: !NextScene
+          scene: roam
+
+  - id: talk_to_sister_near_platforms
+    do: !CheckFlag
+      flag: kf_hub_TalkedToSisterNearPlatforms
+      set: yes
+      no: !Monologue
+        from: twin_sister
+        texts:
+          - "Oh, tu as une [blue]fée[/] maintenant ?!\nC'est cool, $HeroName !"
+          - "Comment ?"
+          - "Tu as été convoqué par le\n[red]vénérable Arbre Mojo[/] ?\nQuel honneur !"
+          - "Il va peut-être te donner un joli\ncadeau, hi hi !"
+          - "Il est notre père à tous, tu sais !\nIl protège la forêt de sa toute\npuissance ! Il a donnée vie à tous\nles Kokiris !"
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: twin_sister
+        texts:
+          - "Je me demande bien si le\n[red]vénérable Arbre Mojo[/] a créé\ntous les êtres de la forêt."
+        then: !NextScene
+          scene: roam
+
+  - id: talk_to_kokiri_near_midos
+    do: !Monologue
+      from: kokiri
+      texts:
+        - "Devant une pierre, et han !\nJe la soulève.\nDevant une pierre, et yaa !\nJe la soulève."
+        - "Pfouuh, cette peste de [red]Mido[/]... Il\nm'a obligé à ramasser toutes les\npierres devant chez lui."
+      then: !NextScene
+        scene: roam
+
+  - id: talk_to_fado
+    do: !CheckFlag
+      flag: kf_hub_TalkedToFado
+      set: yes
+      no: !Monologue
+        from: fado
+        texts:
+          - "Hii hii hii !\nTu es arrivé jusqu'ici tout seul ?\nComme un grand ?\nT'es un homme, un vrai de vrai !"
+          - "Regarde ! Belle vue, non ?\nAdmire la forêt !"
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: fado
+        texts:
+          - "Regarde ! Belle vue, non ?\nAdmire la forêt !"
+        then: !NextScene
+          scene: roam
+
+  - id: talk_to_kokiri_near_exit
+    do: !CheckFlag
+      flag: kf_hub_TalkedToKokiriNearExit
+      set: yes
+      no: !Monologue
+        from: kokiri
+        texts:
+          - "Tu n'es pas autorisé à quitter la\nforêt, petit Kokiri !"
+          - "Le très vénérable Arbre Mojo dit\nqu'un Kokiri hors de la forêt est\nun Kokiri mort !"
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: kokiri
+        texts:
+          - "Le très vénérable Arbre Mojo dit\nqu'un Kokiri hors de la forêt est\nun Kokiri mort !"
+        then: !NextScene
+          scene: roam
+
+  - id: talk_to_sister_near_training
+    do: !CheckFlag
+      flag: kf_hub_TalkedToSisterNearTraining
+      set: yes
+      no: !Monologue
+        from: twin_sister
+        texts:
+          - "Ah ! Enfin tu as eu ta [blue]fée[/] !"
+          - "Mais tu as encore beaucoup à\napprendre !"
+          - "L'[green]aire d'entraînement sylvestre[/]\nt'enseignera de nouvelles\ntechniques. Dirige-toi vers\ncette colline..."
+        then: !NextScene
+          scene: roam
+      yes: !Monologue
+        from: twin_sister
+        texts:
+          - "L'[green]aire d'entraînement sylvestre[/]\nt'enseignera de nouvelles\ntechniques. Dirige-toi vers\ncette colline..."
+        then: !NextScene
+          scene: roam
+
+  - id: get_rupee_near_fado
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez 1 rubis bleu."
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_hub_RupeeNearFado
+          then: !NextScene
+            scene: roam
+
+  - id: get_rupee_behind_midos
+    do: !Monologue
+      from: dummy
+      texts:
+        - "Vous obtenez 1 rubis bleu."
+      then: !GiveMoney
+        money: 5
+        then: !SetFlag
+          flag: kf_hub_RupeeBehindMidos
+          then: !NextScene
+            scene: roam
+
+  - id: dig_grass
+    do: !CheckRandom
+      chance: 0.20
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis vert."
+        then: !GiveMoney
+          money: 1
+          then: !NextScene
+            scene: roam
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: roam
+
+  - id: throw_rock_1
+    do: !CheckRandom
+      chance: 0.40
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis vert."
+        then: !GiveMoney
+          money: 1
+          then: !NextScene
+            scene: roam
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: roam
+
+  - id: throw_rock_2
+    do: !CheckRandom
+      chance: 0.10
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis bleu."
+        then: !GiveMoney
+          money: 5
+          then: !NextScene
+            scene: roam
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: roam
+
+  - id: cut_sign
+    do: !CheckRandom
+      chance: 0.20
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis bleu."
+        then: !GiveMoney
+          money: 5
+          then: !NextScene
+            scene: roam
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: roam
+
+  - id: cut_grass
+    do: !CheckRandom
+      chance: 0.60
+      yes: !Monologue
+        from: dummy
+        texts:
+          - "Vous obtenez 1 rubis vert."
+        then: !GiveMoney
+          money: 1
+          then: !NextScene
+            scene: roam
+      no: !Monologue
+        from: dummy
+        texts:
+          - "Vous n'obtenez rien."
+        then: !NextScene
+          scene: roam
+
+  - id: goto_deku_tree
+    do: !NextStage
+      stage: kf_deku_tree_trail

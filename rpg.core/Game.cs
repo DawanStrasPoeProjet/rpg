@@ -6,14 +6,13 @@ public class Game : IGame
     public IEntitySource EntitySource { get; }
     public IInventorySystem InventorySystem { get; }
     public ICombatSystem CombatSystem { get; }
-    public IUISystem UISystem { get; }
     public IStageSystem StageSystem { get; }
 
     private readonly Dictionary<string, bool> _flags = new();
     private readonly Dictionary<string, object> _data = new();
 
     public Game(IItemSource itemSource, IEntitySource entitySource, IInventorySystem inventorySystem,
-        ICombatSystem combatSystem, IUISystem uiSystem, IStageSystem stageSystem)
+        ICombatSystem combatSystem, IStageSystem stageSystem)
     {
         ItemSource = itemSource;
         EntitySource = entitySource;
@@ -21,8 +20,6 @@ public class Game : IGame
         InventorySystem.Game = this;
         CombatSystem = combatSystem;
         CombatSystem.Game = this;
-        UISystem = uiSystem;
-        UISystem.Game = this;
         StageSystem = stageSystem;
         StageSystem.Game = this;
     }

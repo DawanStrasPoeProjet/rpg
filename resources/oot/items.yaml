@@ -1,0 +1,23 @@
+- !WeaponItem
+  id: none
+  name: ""
+
+- !WeaponItem
+  id: deku_stick
+  name: "Bâton Mojo"
+
+- !WeaponItem
+  id: deku_nut
+  name: "Noix Mojo"
+
+- !WeaponItem
+  id: deku_shield
+  name: "Bouclier Mojo"
+
+- !WeaponItem
+  id: kokiris_sword
+  name: "Épée Kokiri"
+
+- !WeaponItem
+  id: deku_baba_weapon
+  name: "Mojo Baba"

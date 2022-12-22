@@ -1,0 +1,9 @@
+﻿name: Arbre Mojo
+scenes:
+  - id: start
+    do: !Choices
+      title: "[red]Indisponible dans la démo.[/]"
+      choices:
+        - text: "[underline]Sortir[/]"
+          do: !NextStage
+            stage: kf_deku_tree_trail
