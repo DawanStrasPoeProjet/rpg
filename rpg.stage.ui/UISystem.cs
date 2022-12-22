@@ -21,10 +21,24 @@ public class UISystem : IUISystem
             AnsiConsole.Write(new Rule($"{stageName}, {sceneName}"));
         AnsiConsole.WriteLine();
 
-        if (_hero == null) return;
-        AnsiConsole.MarkupLine($"[red underline]Vie        :[/] [red]{_hero.Health}/{_hero.MaxHealth}[/]");
+        if (_hero == null)
+            return;
+
+        AnsiConsole.Markup($"[red underline]Vie        :[/] ");
+        var numFilledHearts = _hero.Health / 16;
+        var numMissingHearts = (_hero.MaxHealth - _hero.Health) / 16;
+        var hasPartialHeart = (_hero.MaxHealth - _hero.Health) % 16 > 1;
+        for (var i = 0; i < numFilledHearts; ++i)
+            AnsiConsole.Markup(":orange_heart:");
+        if (hasPartialHeart)
+            AnsiConsole.Markup(":purple_heart:");
+        for (var i = 0; i < numMissingHearts; ++i)
+            AnsiConsole.Markup(":brown_heart:");
+        AnsiConsole.MarkupLine($"[red]({_hero.Health}/{_hero.MaxHealth})[/]");
+
         AnsiConsole.MarkupLine($"[green underline]Magie      :[/] [green]{_hero.Magic}/{_hero.MaxMagic}[/]");
         AnsiConsole.MarkupLine($"[yellow underline]Rubis      :[/] [yellow]{_hero.Money}[/]");
+
         var itemNames = _hero.Bag.Items.Select(x => x.Name);
         AnsiConsole.MarkupLine(
             $"[underline]Équipement :[/] [[{_hero.EquippedItem.Name}]] [[{string.Join(", ", itemNames)}]]");
