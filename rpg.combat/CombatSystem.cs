@@ -17,6 +17,10 @@ public class CombatSystem : ICombatSystem
 
     public CombatResult BeginCombat(IEntity source, IEnumerable<IEntity> entities)
     {
+        AliveEntities.Clear();
+        TurnOrder.Clear();
+        Turn = 0;
+
         Debug.WriteLine("Le combat commence !");
 
         this.Player = source;
