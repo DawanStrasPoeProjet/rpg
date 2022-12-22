@@ -1,11 +1,8 @@
-﻿using RPG.Core;
+﻿namespace RPG.Combat.UI;
 
-namespace RPG.Combat.UI
+public enum PromptType
 {
-    public enum PromptType
-    {
-        CombatMainSelection,
-        CombatTargetSelection,
-        CombatItemSelection
-    }
+    CombatMainSelection,
+    CombatTargetSelection,
+    CombatItemSelection
 }

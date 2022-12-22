@@ -1,6 +1,6 @@
-﻿using RPG.Core;
+﻿using RPG.Combat.UI;
+using RPG.Core;
 using RPG.Data;
-using RPG.Combat.UI;
 using System.Diagnostics;
 
 namespace RPG.Combat;
@@ -45,7 +45,7 @@ public class CombatSystem : ICombatSystem
 
 
         bool flee = false;
-        
+
         // Termine le combat si le joueur fuit // Il reste des combattants vivants // Il reste des joueurs vivants
         while (!flee && AliveEntities.Count > 1 && AliveEntities.Any(e => e.Equals(source)))
         {
@@ -57,7 +57,7 @@ public class CombatSystem : ICombatSystem
                 Turn = (Turn + 1) % TurnOrder.Count; //Reset à 0 si turn est égal à la taille de la liste
                 continue;
             }
-            
+
             if (entity.IsPlayer)
             {
                 flee = PlayerTurn(entity);
@@ -94,13 +94,13 @@ public class CombatSystem : ICombatSystem
 
         CombatUI.Update(aliveEntities: AliveEntities, turn: Turn);
         choice = CombatUI.GetPrompt(PromptType.CombatMainSelection);
-        
+
         switch (choice)
         {
             case 1:
                 IEntity target = ManualSelectTarget(player);
                 Attack(player, target);
-                
+
                 break;
             case 2:
                 ManualUseItem(player);
@@ -108,7 +108,7 @@ public class CombatSystem : ICombatSystem
             case 3:
                 break;
             case 4:
-                return Flee(player) ;
+                return Flee(player);
             default:
                 Debug.WriteLine("Erreur : choix invalide");
                 PlayerTurn(player);
@@ -127,7 +127,7 @@ public class CombatSystem : ICombatSystem
 
         if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Any())
             healed = AutoUseItem(monster, "healing");
-        
+
         if (monster.Equals(source) && !healed)
         {
             Attack(monster, AutoSelectTarget(monster, smartSelect: true));
@@ -143,7 +143,7 @@ public class CombatSystem : ICombatSystem
     {
         IEntity? target = CombatUI.GetPrompt(PromptType.CombatTargetSelection);
 
-        if(target is null)
+        if (target is null)
             throw new Exception("Erreur : cible invalide");
         return target;
     }
@@ -151,7 +151,6 @@ public class CombatSystem : ICombatSystem
     //Retourne une cible automatiquement avec ou sans recherche "intelligente"
     private IEntity AutoSelectTarget(IEntity source, bool smartSelect = false)
     {
-        
         List<IEntity> AliveTargets = AliveEntities.Where(e => !e.Equals(source)).ToList();
         Random rand = new();
 
@@ -163,14 +162,14 @@ public class CombatSystem : ICombatSystem
             int minHP = AliveTargets.Min(e => e.Health);
             int minDef = AliveTargets.Min(e => e.Defense);
 
-            
+
             List<IEntity> minHPList = AliveTargets.Where(e => e.Health == minHP).ToList();
             List<IEntity> minDefList = AliveTargets.Where(e => e.Defense == minDef).ToList();
 
             if (minHPList.Count == 1)
             {
                 return minHPList.First();
-            }            
+            }
             else if (minDefList.Count == 1)
             {
                 return minDefList.First();
@@ -213,12 +212,13 @@ public class CombatSystem : ICombatSystem
             target.Health -= finalDamage;
             if (target.Health < 0)
                 target.Health = 0;
-            
-            string dmgText = $"{attacker.Name} attaque {target.Name} avec {attacker.EquippedItem.Name} et lui inflige {finalDamage} points de dégâts !";
+
+            string dmgText =
+                $"{attacker.Name} attaque {target.Name} avec {attacker.EquippedItem.Name} et lui inflige {finalDamage} points de dégâts !";
             string newHP = $"{target.Name} a maintenant {target.Health}/{target.MaxHealth} points de vie...";
             string deathText = "";
             string finalDesc = "";
-            
+
             if (target.Health <= 0)
             {
                 deathText = $"[red]{target.Name} est mort[/] !";
@@ -235,7 +235,7 @@ public class CombatSystem : ICombatSystem
                 aliveEntities: AliveEntities,
                 description: finalDesc,
                 turn: Turn);
-            CombatUI.WaitEnterKeyPress(); 
+            CombatUI.WaitEnterKeyPress();
         }
         else
         {
@@ -256,18 +256,18 @@ public class CombatSystem : ICombatSystem
 
         int fleeAttempt = rand.Next(1, 101) + (coward.Initiative - (bullies.Sum(e => e.Initiative) / bullies.Count));
         int fleeChance = bullies.Count * 20;
-        
+
         if (fleeAttempt > fleeChance)
         {
             CombatUI.Update(
-            description: $"Vous avez réussi à fuir le combat !");
+                description: $"Vous avez réussi à fuir le combat !");
             CombatUI.WaitEnterKeyPress();
             return true;
         }
         else
         {
             CombatUI.Update(
-            description: $"Vous n'avez pas réussi à fuir le combat !");
+                description: $"Vous n'avez pas réussi à fuir le combat !");
             CombatUI.WaitEnterKeyPress();
             return false;
         }
@@ -285,7 +285,7 @@ public class CombatSystem : ICombatSystem
 
             string usePotion = $"{fighter.Name} utilise {potion.Name} et récupère {potion.Health} points de vie !";
             string currentHealth = $"Santé de {fighter.Name} : {fighter.Health}/{fighter.MaxHealth}";
-            
+
             CombatUI.Update(
                 player: Player,
                 aliveEntities: AliveEntities,
@@ -296,7 +296,7 @@ public class CombatSystem : ICombatSystem
         else
         {
             CombatUI.Update(
-            description: $"Vous ne pouvez pas utiliser cet objet !");
+                description: $"Vous ne pouvez pas utiliser cet objet !");
             CombatUI.WaitEnterKeyPress();
         }
     }
@@ -304,14 +304,14 @@ public class CombatSystem : ICombatSystem
     // Utilise automatiquement un item dans l'inventaire
     private bool AutoUseItem(IEntity fighter, string typeOfItem)
     {
-        IEnumerable<IItem> items = fighter.Bag.Items ;
+        IEnumerable<IItem> items = fighter.Bag.Items;
         if (!items.Any())
         {
             //Throw exception if inventory is empty
             //Exception thrown because it shouldn't be the case if AutoUseItem is used
             throw new Exception("Inventory empty");
         }
-        
+
 
         foreach (IItem iterableItem in items)
         {
@@ -359,14 +359,14 @@ public class CombatSystem : ICombatSystem
             entitiesList.RemoveAt(maxRollIndex);
             rolls.RemoveAt(maxRollIndex);
         }
-        
+
         Debug.WriteLine("Liste des entités dans l'ordre de tour :");
         foreach (IEntity e in orderedEntities)
         {
             Debug.WriteLine($"{e.Name} : {e.Initiative}");
         }
         Debug.WriteLine("Lancement des dés d'initiative...");
-        
+
         return orderedEntities;
     }
 }
