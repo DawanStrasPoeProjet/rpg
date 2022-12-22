@@ -7,7 +7,7 @@
   baseDamage: 2
   numDiceRolls: 1
   numDiceFaces: 4
-  
+
 - !WeaponItem
   id: fangs
   tags:
@@ -17,7 +17,7 @@
   baseDamage: 1
   numDiceRolls: 1
   numDiceFaces: 8
-  
+
 - !WeaponItem
   id: claws
   tags:
@@ -57,7 +57,7 @@
   baseDamage: 6
   numDiceRolls: 1
   numDiceFaces: 8
-  
+
 - !WeaponItem
   id: dagger
   tags:
@@ -110,8 +110,8 @@
 - !PotionItem
   id: life_potion
   tags:
-  - healing
-  - consumable
+    - healing
+    - consumable
   name: Potion de vie
   description: Une potion de vie. Restaure 20 hp.
   health: 20
@@ -124,7 +124,7 @@
   name: Potion de vie majeure
   description: Une potion de vie majeure. Restaure 40 hp.
   health: 40
-  
+
 - !QuestItem
   id: small_key
   tags:

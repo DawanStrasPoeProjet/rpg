@@ -24,7 +24,6 @@
   initiative: 8
   attack: 20
   defense: 10
- 
 
 - id: bandit
   name: Bandit
@@ -55,7 +54,7 @@
   defaultEquippedItemId: dagger
   health: 20
   maxHealth: 25
-  initiative: 16  
+  initiative: 16
   attack: 17
   defense: 16
 
@@ -70,7 +69,7 @@
   initiative: 13
   attack: 10
   defense: 5
-  
+
 - id: mojo_baba
   name: Mojo
   defaultEquippedItemId: fangs
