@@ -164,6 +164,11 @@ internal class CheckRandomActionDto : ActionDto
     public ActionDto No { get; set; } = null!;
 }
 
+internal class QuitActionDto : ActionDto
+{
+    public string Dummy { get; set; } = string.Empty;
+}
+
 internal class CondDto
 {
 }

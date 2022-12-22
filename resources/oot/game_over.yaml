@@ -1,0 +1,14 @@
+﻿name: Game Over
+scenes:
+  - id: start
+    do: !Choices
+      title: "[red]Game Over[/]"
+      choices:
+        - text: "Continuer"
+          do: !GiveHealth
+            health: 48
+            then: !NextStage
+              stage: kf_links_house
+        - text: "Quitter"
+          do: !Quit
+            dummy:

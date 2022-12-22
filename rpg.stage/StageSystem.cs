@@ -67,6 +67,7 @@ public class StageSystem : IStageSystem
             .WithTagMapping("!EquipItem", typeof(EquipItemActionDto))
             .WithTagMapping("!CheckHasEquip", typeof(CheckHasEquipActionDto))
             .WithTagMapping("!CheckRandom", typeof(CheckRandomActionDto))
+            .WithTagMapping("!Quit", typeof(QuitActionDto))
             .WithTagMapping("!IsFlagSet", typeof(IsFlagSetCondDto))
             .WithTagMapping("!IsFlagUnset", typeof(IsFlagUnsetCondDto))
             .WithTagMapping("!HasEquip", typeof(HasEquipCondDto))
@@ -183,6 +184,8 @@ public class StageSystem : IStageSystem
                 case CheckRandomActionDto dto:
                     nextAction = Scene_DoCheckRandomActionDto(dto);
                     break;
+                case QuitActionDto:
+                    return;
                 default:
                     Console.WriteLine($"unhandled action {nextAction}");
                     break;

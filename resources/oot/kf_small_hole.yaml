@@ -75,8 +75,12 @@ scenes:
         - "Vous perdez 4 points de vie !"
       then: !TakeHealth
         health: 4
-        then: !NextScene
-          scene: start
+        then: !CheckHasHealth
+          health: 4
+          no: !NextStage
+            stage: game_over
+          yes: !NextScene
+            scene: start
 
   - id: open_chest
     do: !Monologue
