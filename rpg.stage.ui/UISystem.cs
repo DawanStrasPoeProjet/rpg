@@ -1,5 +1,4 @@
-﻿using System.Text;
-using RPG.Core;
+﻿using RPG.Core;
 using Spectre.Console;
 
 namespace RPG.Stage.UI;
@@ -8,11 +7,6 @@ public class UISystem : IUISystem
 {
     private IEntity? _hero;
     private readonly Dictionary<string, object> _displayData = new();
-
-    public UISystem()
-    {
-        Console.OutputEncoding = Encoding.UTF8;
-    }
 
     public void Invalidate()
     {
