@@ -68,6 +68,7 @@ public class StageSystem : IStageSystem
             .WithTagMapping("!CheckHasEquip", typeof(CheckHasEquipActionDto))
             .WithTagMapping("!CheckRandom", typeof(CheckRandomActionDto))
             .WithTagMapping("!Quit", typeof(QuitActionDto))
+            .WithTagMapping("!Combat", typeof(CombatActionDto))
             .WithTagMapping("!IsFlagSet", typeof(IsFlagSetCondDto))
             .WithTagMapping("!IsFlagUnset", typeof(IsFlagUnsetCondDto))
             .WithTagMapping("!HasEquip", typeof(HasEquipCondDto))
@@ -187,6 +188,9 @@ public class StageSystem : IStageSystem
                 case QuitActionDto:
                     _uiSystem.Clear();
                     return;
+                case CombatActionDto dto:
+                    nextAction = Scene_DoCombatActionDto(dto);
+                    break;
                 default:
                     Console.WriteLine($"unhandled action {nextAction}");
                     break;
@@ -326,4 +330,17 @@ public class StageSystem : IStageSystem
 
     private ActionDto Scene_DoCheckRandomActionDto(CheckRandomActionDto dto)
         => Random.Shared.NextDouble() <= dto.Chance ? dto.Yes : dto.No;
+
+    private ActionDto Scene_DoCombatActionDto(CombatActionDto dto)
+    {
+        _uiSystem.Clear();
+        var entities = dto.Entities.Select(i => Game.EntitySource.Create(i)).ToList();
+        return Game.CombatSystem.BeginCombat(_hero, entities) switch
+        {
+            CombatResult.Won => dto.Won,
+            CombatResult.Lost => dto.Lost,
+            CombatResult.Fled => dto.Fled,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
 }

@@ -169,6 +169,14 @@ internal class QuitActionDto : ActionDto
     public string Dummy { get; set; } = string.Empty;
 }
 
+internal class CombatActionDto : ActionDto
+{
+    public IEnumerable<string> Entities { get; set; } = null!;
+    public ActionDto Won { get; set; } = null!;
+    public ActionDto Lost { get; set; } = null!;
+    public ActionDto Fled { get; set; } = null!;
+}
+
 internal class CondDto
 {
 }
