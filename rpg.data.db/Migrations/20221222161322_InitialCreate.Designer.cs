@@ -2,17 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RPG.Data.Database.Context;
+using RPG.Data.Db.Contexts;
 
 #nullable disable
 
-namespace RPG.Data.Migrations
+namespace RPG.Data.Db.Migrations
 {
-    [DbContext(typeof(RpgContext))]
-    partial class RpgContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RpgDbContext))]
+    [Migration("20221222161322_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace RPG.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("RPG.Data.Database.Model.Entity", b =>
+            modelBuilder.Entity("RPG.Data.Db.Models.Entity", b =>
                 {
                     b.Property<int>("EntityId")
                         .ValueGeneratedOnAdd()
@@ -36,7 +38,6 @@ namespace RPG.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DefaultEquippedItemId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Defense")
@@ -49,7 +50,6 @@ namespace RPG.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Initiative")
@@ -71,7 +71,6 @@ namespace RPG.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tags")
@@ -82,97 +81,86 @@ namespace RPG.Data.Migrations
                     b.ToTable("Entities");
                 });
 
-            modelBuilder.Entity("RPG.Data.Database.Model.PotionItem", b =>
+            modelBuilder.Entity("RPG.Data.Db.Models.PotionItem", b =>
                 {
-                    b.Property<int>("PotionId")
+                    b.Property<int>("PotionItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PotionId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PotionItemId"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Health")
                         .HasColumnType("int");
 
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Magic")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("Tags")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PotionId");
+                    b.HasKey("PotionItemId");
 
                     b.ToTable("PotionItems");
                 });
 
-            modelBuilder.Entity("RPG.Data.Database.Model.QuestItem", b =>
+            modelBuilder.Entity("RPG.Data.Db.Models.QuestItem", b =>
                 {
-                    b.Property<int>("QuestId")
+                    b.Property<int>("QuestItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestItemId"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("Tags")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("QuestId");
+                    b.HasKey("QuestItemId");
 
                     b.ToTable("QuestItems");
                 });
 
-            modelBuilder.Entity("RPG.Data.Database.Model.WeaponItem", b =>
+            modelBuilder.Entity("RPG.Data.Db.Models.WeaponItem", b =>
                 {
-                    b.Property<int>("WeaponId")
+                    b.Property<int>("WeaponItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WeaponId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WeaponItemId"), 1L, 1);
 
                     b.Property<int>("BaseDamage")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumDiceFaces")
@@ -185,10 +173,9 @@ namespace RPG.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Tags")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("WeaponId");
+                    b.HasKey("WeaponItemId");
 
                     b.ToTable("WeaponItems");
                 });

@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace RPG.Data.Migrations
+namespace RPG.Data.Db.Migrations
 {
-    public partial class InitialModel : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,18 +14,21 @@ namespace RPG.Data.Migrations
                 {
                     EntityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BagItemIds = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DefaultEquippedItemId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BagItemIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DefaultEquippedItemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EquippedItemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Initiative = table.Column<int>(type: "int", nullable: false),
                     Health = table.Column<int>(type: "int", nullable: false),
                     MaxHealth = table.Column<int>(type: "int", nullable: false),
                     Magic = table.Column<int>(type: "int", nullable: false),
                     MaxMagic = table.Column<int>(type: "int", nullable: false),
+                    Attack = table.Column<int>(type: "int", nullable: false),
                     Defense = table.Column<int>(type: "int", nullable: false),
-                    Money = table.Column<int>(type: "int", nullable: false)
+                    Money = table.Column<int>(type: "int", nullable: false),
+                    IsPlayer = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,48 +39,48 @@ namespace RPG.Data.Migrations
                 name: "PotionItems",
                 columns: table => new
                 {
-                    PotionId = table.Column<int>(type: "int", nullable: false)
+                    PotionItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Health = table.Column<int>(type: "int", nullable: false),
                     Magic = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PotionItems", x => x.PotionId);
+                    table.PrimaryKey("PK_PotionItems", x => x.PotionItemId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "QuestItems",
                 columns: table => new
                 {
-                    QuestId = table.Column<int>(type: "int", nullable: false)
+                    QuestItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuestItems", x => x.QuestId);
+                    table.PrimaryKey("PK_QuestItems", x => x.QuestItemId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WeaponItems",
                 columns: table => new
                 {
-                    WeaponId = table.Column<int>(type: "int", nullable: false)
+                    WeaponItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     BaseDamage = table.Column<int>(type: "int", nullable: false),
                     NumDiceRolls = table.Column<int>(type: "int", nullable: false),
@@ -85,7 +88,7 @@ namespace RPG.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WeaponItems", x => x.WeaponId);
+                    table.PrimaryKey("PK_WeaponItems", x => x.WeaponItemId);
                 });
         }
 

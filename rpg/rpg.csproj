@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\rpg.combat\rpg.combat.csproj" />
     <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
+    <ProjectReference Include="..\rpg.data.db\rpg.data.db.csproj" />
     <ProjectReference Include="..\rpg.data\rpg.data.csproj" />
     <ProjectReference Include="..\rpg.inventory\rpg.inventory.csproj" />
     <ProjectReference Include="..\rpg.stage\rpg.stage.csproj" />

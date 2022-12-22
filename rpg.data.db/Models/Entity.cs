@@ -1,21 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#nullable disable
 
-namespace RPG.Data.Database.Model;
+using System.ComponentModel.DataAnnotations;
+
+namespace RPG.Data.Db.Models;
 
 public class Entity
 {
     [Key] public int EntityId { get; set; }
     public string Id { get; set; }
-    public string? Tags { get; set; } // "player,blah"
-    public string? BagItemIds { get; set; } // "small_life_potion,small_key"
-    public string DefaultEquippedItemId { get; set; } // "fist"
-    public string? EquippedItemId { get; set; } 
+    public string Tags { get; set; }
+    public string BagItemIds { get; set; }
+    public string DefaultEquippedItemId { get; set; }
+    public string EquippedItemId { get; set; }
     public string Name { get; set; }
     public int Initiative { get; set; }
     public int Health { get; set; }
