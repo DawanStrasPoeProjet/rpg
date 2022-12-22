@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpg.inventory", "rpg.invent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpg.combat", "rpg.combat\rpg.combat.csproj", "{EB6C0316-2BF3-426E-BE99-3990AD5F17E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rpg.ui", "rpg.ui\rpg.ui.csproj", "{25E8EAAF-10CA-40A1-A40E-6E0778B7962C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpg.combat.ui", "rpg.combat.ui\rpg.combat.ui.csproj", "{25E8EAAF-10CA-40A1-A40E-6E0778B7962C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

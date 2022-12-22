@@ -1,6 +1,6 @@
 ﻿using RPG.Core;
 using RPG.Data;
-using RPG.UI;
+using RPG.Combat.UI;
 using System.Diagnostics;
 
 namespace RPG.Combat;
@@ -92,24 +92,6 @@ public class CombatSystem : ICombatSystem
     {
         int choice;
 
-
-
-        //do
-        //{
-
-        //    Debug.WriteLine($"{player.Name} : {player.Health}/{player.MaxHealth}\nArme : {player.EquippedItem.Name}");
-
-        //    Debug.WriteLine($@"Quelle sera votre action ?
-        //        1 - Attaquer
-        //        2 - Utiliser un objet
-        //        3 - Passer son tour
-        //        4 - Fuir le combat");
-
-        //    Debug.Write("Votre choix : ");
-
-        //    //choice = int.TryParse(Debug.ReadLine(), out int result) ? result : 0;
-
-        //} while (!CheckInput(choice));
         CombatUI.Update(aliveEntities: AliveEntities, turn: Turn);
         choice = CombatUI.GetPrompt(PromptType.CombatMainSelection);
         
@@ -140,9 +122,8 @@ public class CombatSystem : ICombatSystem
     {
         bool healed = false;
 
-        Debug.WriteLine($"Tour de {monster.Name}.\n");
-        Debug.WriteLineIf(monster.Health < monster.MaxHealth * 20 / 100, $"{monster.Name} doit se soigner");
-
+        CombatUI.Update(description: $"Tour de {monster.Name}.\n");
+        CombatUI.WaitEnterKeyPress();
 
         if (monster.Health < monster.MaxHealth * 20 / 100 && monster.Bag.Items.Any())
             healed = AutoUseItem(monster, "healing");
@@ -165,32 +146,6 @@ public class CombatSystem : ICombatSystem
         if(target is null)
             throw new Exception("Erreur : cible invalide");
         return target;
-        
-        //List<IEntity> AliveTargets = AliveEntities.Where(e => !e.Equals(source)).ToList();
-
-        //IEntity target = source;
-
-        //while (target == source)
-        //{
-        //    Debug.WriteLine("Choisissez une cible :");
-        //    for (int i = 0; i < AliveTargets.Count; i++)
-        //    {
-        //        Debug.WriteLine($"{i + 1} - {AliveTargets.ElementAt(i).Name}");
-        //    }
-        //    Debug.Write("Votre choix : ");
-        //    //int choice = int.TryParse(Debug.ReadLine(), out int result) ? result : 0;
-
-
-        //    if (choice > 0 && choice <= AliveTargets.Count)
-        //    {
-        //        target = AliveTargets.ElementAt(choice - 1);
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("Erreur : choix invalide");
-        //    }
-        //}
-        //return target;
     }
 
     //Retourne une cible automatiquement avec ou sans recherche "intelligente"
@@ -283,16 +238,16 @@ public class CombatSystem : ICombatSystem
                 aliveEntities: AliveEntities,
                 description: finalDesc,
                 turn: Turn);
-            CombatUI.WaitEnterKeyPress();
-
-
-            // Debug.WriteLine($"{attacker.Name} inflige {finalDamage} points de dégats à {target.Name} !\n");
-            // Debug.WriteLine($"{target.Name} a maintenant {target.Health}/{target.MaxHealth} points de vie\n");
-            
+            CombatUI.WaitEnterKeyPress(); 
         }
         else
         {
-            Debug.WriteLine($"{attacker.Name} rate son attaque contre {target.Name}.");
+            CombatUI.Update(
+                player: Player,
+                aliveEntities: AliveEntities,
+                description: $"{attacker.Name} rate son attaque contre {target.Name}",
+                turn: Turn);
+            CombatUI.WaitEnterKeyPress();
         }
     }
 
@@ -307,12 +262,16 @@ public class CombatSystem : ICombatSystem
         
         if (fleeAttempt > fleeChance)
         {
-            Debug.WriteLine($"{coward.Name} a réussi à fuir le combat !");
+            CombatUI.Update(
+            description: $"Vous avez réussi à fuir le combat !");
+            CombatUI.WaitEnterKeyPress();
             return true;
         }
         else
         {
-            Debug.WriteLine($"{coward.Name} n'a pas réussi à fuir le combat !");
+            CombatUI.Update(
+            description: $"Vous n'avez pas réussi à fuir le combat !");
+            CombatUI.WaitEnterKeyPress();
             return false;
         }
     }
@@ -330,9 +289,6 @@ public class CombatSystem : ICombatSystem
             string usePotion = $"{fighter.Name} utilise {potion.Name} et récupère {potion.Health} points de vie !";
             string currentHealth = $"Santé de {fighter.Name} : {fighter.Health}/{fighter.MaxHealth}";
             
-            Debug.WriteLine($"{fighter.Name} utilise {potion.Name} et récupère {potion.Health} points de vie !");
-            Debug.WriteLine($"Santé de {fighter.Name} : {fighter.Health}/{fighter.MaxHealth}");
-
             CombatUI.Update(
                 player: Player,
                 aliveEntities: AliveEntities,
@@ -342,11 +298,13 @@ public class CombatSystem : ICombatSystem
         }
         else
         {
-            Debug.WriteLine("Vous ne pouvez pas utiliser cet objet !");
+            CombatUI.Update(
+            description: $"Vous ne pouvez pas utiliser cet objet !");
+            CombatUI.WaitEnterKeyPress();
         }
     }
 
-    //Utilise automatiquement un item dans l'inventaire
+    // Utilise automatiquement un item dans l'inventaire
     private bool AutoUseItem(IEntity fighter, string typeOfItem)
     {
         IEnumerable<IItem> items = fighter.Bag.Items ;
@@ -369,33 +327,9 @@ public class CombatSystem : ICombatSystem
         return false;
     }
 
+    // Utilise manuellement l'inventaire, pour le joueur
     private bool ManualUseItem(IEntity fighter)
     {
-        //IEnumerable<IItem> items = fighter.Bag.Items;
-
-        //if (!items.Any())
-        //{
-        //    Debug.WriteLine("Vous n'avez aucun objet dans votre inventaire");
-        //    return false;
-        //}
-
-        //int i = 1;
-        //foreach (IItem iterableItem in items)
-        //{
-        //    Debug.WriteLine($"{i} - {iterableItem.Name}");
-        //    i++;
-        //}
-
-        //Debug.WriteLine($"{i} - Retour");
-
-        //int choice;
-        //do
-        //{
-        //    Debug.Write("Votre choix : ");
-
-        //    //choice = int.TryParse(Debug.ReadLine(), out int itemResult) ? itemResult : 0;
-        //} while (!CheckInput(choice = 0, max: i));
-
         IItem? consumableItem = CombatUI.GetPrompt(PromptType.CombatItemSelection);
 
         if (consumableItem is null)
@@ -428,23 +362,14 @@ public class CombatSystem : ICombatSystem
             entitiesList.RemoveAt(maxRollIndex);
             rolls.RemoveAt(maxRollIndex);
         }
-
+        
         Debug.WriteLine("Liste des entités dans l'ordre de tour :");
         foreach (IEntity e in orderedEntities)
         {
             Debug.WriteLine($"{e.Name} : {e.Initiative}");
         }
-
         Debug.WriteLine("Lancement des dés d'initiative...");
-
+        
         return orderedEntities;
     }
-
-
-    // Vérifie que l'input est bien un chiffre entre 1 et 4
-    // Sera supprimé si Spectre Console est implémenté
-    //private static bool CheckInput(int input, int min = 1, int max = 4)
-    //{
-    //    return input >= min && input <= max;
-    //}
 }

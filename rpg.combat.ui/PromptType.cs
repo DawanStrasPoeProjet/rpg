@@ -1,6 +1,6 @@
 ﻿using RPG.Core;
 
-namespace RPG.UI
+namespace RPG.Combat.UI
 {
     public enum PromptType
     {

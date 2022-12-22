@@ -5,7 +5,7 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace RPG.UI
+namespace RPG.Combat.UI
 {
     public class UICombat : IUICombat
     {

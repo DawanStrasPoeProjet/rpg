@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG.UI
+namespace RPG.Combat.UI
 {
     public interface IUICombat
     {

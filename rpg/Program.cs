@@ -2,7 +2,7 @@
 using RPG.Core;
 using RPG.Data;
 using RPG.Inventory;
-using RPG.UI;
+using RPG.Combat.UI;
 
 namespace RPG;
 
@@ -33,7 +33,5 @@ internal static class Program
         //    CombatResult.Fled => "You fled!",
         //    _ => throw new ArgumentOutOfRangeException()
         //});
-
-        //Lancer Start de Class1
     }
 }

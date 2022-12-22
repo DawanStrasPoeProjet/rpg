@@ -15,7 +15,7 @@
   attack: 1
   defense: 1
   money: 500
-  isPlayer: false
+  isPlayer: true
 
 - id: swordsman1
   name: Target1
