@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.45.1-preview.0.47" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\rpg.combat.ui\rpg.combat.ui.csproj" />
     <ProjectReference Include="..\rpg.combat\rpg.combat.csproj" />
     <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
