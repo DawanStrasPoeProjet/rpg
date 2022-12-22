@@ -8,8 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
-      <ProjectReference Include="..\rpg.data\rpg.data.csproj" />
+      <ProjectReference Include="..\rpg.combat.ui\rpg.combat.ui.csproj" />
     </ItemGroup>
 
 </Project>

@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\rpg.combat.ui\rpg.combat.ui.csproj" />
     <ProjectReference Include="..\rpg.combat\rpg.combat.csproj" />
     <ProjectReference Include="..\rpg.core\rpg.core.csproj" />
     <ProjectReference Include="..\rpg.data\rpg.data.csproj" />

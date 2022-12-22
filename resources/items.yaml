@@ -4,7 +4,39 @@
     - fast
   name: Poings
   description: Des poings...
-  baseDamage: 5
+  baseDamage: 2
+  numDiceRolls: 1
+  numDiceFaces: 4
+  
+- !WeaponItem
+  id: fangs
+  tags:
+    - fast
+  name: Crocs
+  description: Des crocs acérés...
+  baseDamage: 1
+  numDiceRolls: 1
+  numDiceFaces: 8
+  
+- !WeaponItem
+  id: claws
+  tags:
+    - fast
+  name: Griffes
+  description: Des griffes...
+  baseDamage: 2
+  numDiceRolls: 1
+  numDiceFaces: 6
+
+- !WeaponItem
+  id: greatsword
+  tags:
+    - slow
+  name: Espadon
+  description: Un espadon...
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 12
 
 - !WeaponItem
   id: sword
@@ -12,7 +44,49 @@
     - fast
   name: Épée
   description: Une épée...
-  baseDamage: 20
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 8
+
+- !WeaponItem
+  id: warhammer
+  tags:
+    - slow
+  name: Marteau de guerre
+  description: Un marteau de guerre...
+  baseDamage: 6
+  numDiceRolls: 1
+  numDiceFaces: 8
+  
+- !WeaponItem
+  id: dagger
+  tags:
+    - fast
+  name: Dague
+  description: Une dague...
+  baseDamage: 5
+  numDiceRolls: 2
+  numDiceFaces: 4
+
+- !WeaponItem
+  id: longbow
+  tags:
+    - fast
+  name: Arc long
+  description: Un arc long...
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 8
+
+- !WeaponItem
+  id: shortbow
+  tags:
+    - fast
+  name: Arc court
+  description: Un arc court...
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 6
 
 - !WeaponItem
   id: axe
@@ -20,15 +94,36 @@
     - slow
   name: Hache
   description: Une hache...
-  baseDamage: 40
+  baseDamage: 4
+  numDiceRolls: 1
+  numDiceFaces: 10
 
 - !PotionItem
   id: small_life_potion
   tags:
     - healing
-  name: Petite potion de vie
-  description: Une petite potion de vie...
+    - consumable
+  name: Potion de vie mineure
+  description: Une petite potion de vie mineure. Restaure 10hp;
+  health: 10
+
+- !PotionItem
+  id: life_potion
+  tags:
+  - healing
+  - consumable
+  name: Potion de vie
+  description: Une potion de vie. Restaure 20 hp.
   health: 20
+
+- !PotionItem
+  id: large_life_potion
+  tags:
+    - healing
+    - consumable
+  name: Potion de vie majeure
+  description: Une potion de vie majeure. Restaure 40 hp.
+  health: 40
   
 - !QuestItem
   id: small_key
@@ -36,3 +131,17 @@
     - key
   name: Petite clé
   description: Une petite clé...
+
+- !QuestItem
+  id: large_key
+  tags:
+    - key
+  name: Grosse clé
+  description: Une grosse clé...
+
+- !QuestItem
+  id: boss_key
+  tags:
+    - key
+  name: Clé du boss
+  description: Une grosse clé une tête de mort...
