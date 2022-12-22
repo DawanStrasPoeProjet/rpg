@@ -1,6 +1,6 @@
 ﻿- id: hero
   defaultEquippedItemId: none
-  health: 16
+  health: 48
   maxHealth: 48
   attack: 1
   defense: 1
