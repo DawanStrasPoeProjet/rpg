@@ -4,11 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<RootNamespace>RPG.UI</RootNamespace>
+    <RootNamespace>RPG.Combat.UI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.45.0" />
+    <PackageReference Include="Spectre.Console" Version="0.45.1-preview.0.47" />
   </ItemGroup>
 
   <ItemGroup>
