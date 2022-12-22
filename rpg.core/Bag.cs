@@ -37,7 +37,7 @@ public class Bag : IBag
         => ids.Select(AddItemById).ToList();
 
     public bool HasItemByKey(int key)
-        => _items.FindIndex(x => x.Key == key) > 0;
+        => _items.FindIndex(x => x.Key == key) >= 0;
 
     public IItem? GetItemByKey(int key)
         => _items.Find(x => x.Key == key);
@@ -60,7 +60,7 @@ public class Bag : IBag
     }
 
     public bool HasItemById(string id)
-        => _items.FindIndex(x => x.Id == id) > 0;
+        => _items.FindIndex(x => x.Id == id) >= 0;
 
     public IItem? GetFirstItemById(string id)
         => _items.Find(x => x.Id == id);
@@ -91,7 +91,7 @@ public class Bag : IBag
         => _items.RemoveAll(x => x.Id == id);
 
     public bool HasItemByTag(string tag)
-        => _items.FindIndex(x => x.Tags.Contains(tag)) > 0;
+        => _items.FindIndex(x => x.Tags.Contains(tag)) >= 0;
 
     public IItem? GetFirstItemByTag(string tag)
         => _items.Find(x => x.Tags.Contains(tag));
@@ -122,7 +122,7 @@ public class Bag : IBag
         => _items.RemoveAll(x => x.Tags.Contains(tag));
 
     public bool HasItemByTags(IEnumerable<string> tags)
-        => _items.FindIndex(x => tags.All(x.Tags.Contains)) > 0;
+        => _items.FindIndex(x => tags.All(x.Tags.Contains)) >= 0;
 
     public IItem? GetFirstItemByTags(IEnumerable<string> tags)
         => _items.Find(x => tags.All(x.Tags.Contains));
