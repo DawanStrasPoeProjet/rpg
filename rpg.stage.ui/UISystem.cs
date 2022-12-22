@@ -8,6 +8,9 @@ public class UISystem : IUISystem
     private IEntity? _hero;
     private readonly Dictionary<string, object> _displayData = new();
 
+    public void Clear()
+        => AnsiConsole.Clear();
+
     public void Invalidate()
     {
         AnsiConsole.Clear();

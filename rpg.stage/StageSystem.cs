@@ -185,6 +185,7 @@ public class StageSystem : IStageSystem
                     nextAction = Scene_DoCheckRandomActionDto(dto);
                     break;
                 case QuitActionDto:
+                    _uiSystem.Clear();
                     return;
                 default:
                     Console.WriteLine($"unhandled action {nextAction}");

@@ -4,6 +4,7 @@ namespace RPG.Stage.UI;
 
 public interface IUISystem
 {
+    void Clear();
     void Invalidate();
     void SetHero(IEntity hero);
     void SetStageName(string name);
