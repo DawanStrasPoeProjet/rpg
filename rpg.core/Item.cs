@@ -29,7 +29,10 @@ public class Item : IItem
            $", {nameof(Price)}={Price})";
 
     protected void InsertFrontTag(string tag)
-        => _tags.Insert(0, tag);
+    {
+        if (!_tags.Contains(tag))
+            _tags.Insert(0, tag);
+    }
 
     public static IEnumerable<string> TagsOf(params string[] tags)
         => tags;
