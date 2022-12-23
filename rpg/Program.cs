@@ -15,8 +15,13 @@ internal static class Program
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        var g = DoMenu(PromptHeroName());
-        g?.StageSystem.Boot();
+        var heroName = PromptHeroName();
+        while (true)
+        {
+            var g = DoMenu(heroName);
+            if (g is null) break;
+            g.StageSystem.Boot();
+        }
     }
 
     private static string PromptHeroName()
